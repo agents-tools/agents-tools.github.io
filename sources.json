@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "profile/catalog.json",
+      "file": "sources/standard/profile/catalog.json",
+      "sha256": "c6f47ecc7ede6c8fdb1caaf23a2c96ca738e0c055ac2fe7af4c8a43d2adc2462"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "profile/assets/icon.png",
+      "file": "sources/standard/profile/assets/icon.png",
+      "sha256": "58981839dd6ad3f2c1f5ed4273a64563d95f29925b210c338e76216238a73825"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Social/cli/card.png",
+      "file": "sources/standard/Brand/Social/cli/card.png",
+      "sha256": "055b1a3a824ae7ac5044be528ad4f7fd26893fe80d2cabfec23ffeb75b52e31b"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
+      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
+      "sha256": "b0c68614b217430da2151422ebba7228204b71b9d2ae44ee3df5d1875652a439"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
+      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Regular.woff2",
+      "sha256": "2c8842a8f5dcd4c37aef24c642c67628706f044b0cf7a3baed84537012bdb02e",
+      "transform": "wawoff2@2.0.1"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
+      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
+      "sha256": "21d81560cc28969403960bf1d8387482ee58159735f54c8621c36cd5ffe0c05d"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
+      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Medium.woff2",
+      "sha256": "c13550c21c451465d5c7e148bbf64721f2f812b97ec9a375fa59bf1067894165",
+      "transform": "wawoff2@2.0.1"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
+      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
+      "sha256": "2847d27ddecb0ed4bbbc11b416862f7237107b7617a26071f5891f92d5799575"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
+      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Bold.woff2",
+      "sha256": "de9379da8f6be85f933b86d3b5073a58ce91a36c544db9fc82142e8ac5182705",
+      "transform": "wawoff2@2.0.1"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "Brand/Fonts/OFL.txt",
+      "file": "sources/standard/Brand/Fonts/OFL.txt",
+      "sha256": "ff8f4fbc4f1a71c7d4c6481c48dc2b21c43f8dc15872536667fee45c15d20928"
+    },
+    {
+      "repository": "agents-tools/.github",
+      "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
+      "path": "LICENSE",
+      "file": "sources/standard/LICENSE",
+      "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
+    },
+    {
+      "repository": "agents-tools/cli",
+      "revision": "808b26e406d939e94970e1308e328fb9d202628a",
+      "path": "README.md",
+      "file": "sources/cli/README.md",
+      "sha256": "5c45424717e76aac462ad7a4fb0e221e8d73a1ad74e3a667f0702cdf7a9caf76"
+    },
+    {
+      "repository": "agents-tools/cli",
+      "revision": "808b26e406d939e94970e1308e328fb9d202628a",
+      "path": "Documentation/Reference/CLI.md",
+      "file": "sources/cli/Documentation/Reference/CLI.md",
+      "sha256": "f39e3a0342b42715237f65770a5860736757ccdf01775d9449e9f7c59e9f4fe2"
+    },
+    {
+      "repository": "agents-tools/cli",
+      "revision": "808b26e406d939e94970e1308e328fb9d202628a",
+      "path": "Documentation/Assets/Demo/Demo-light.svg",
+      "file": "sources/cli/Documentation/Assets/Demo/Demo-light.svg",
+      "sha256": "bae7f578fb3d672a1bd8edc5b6187ff8085732e643d7a54075d60709a85005d2"
+    },
+    {
+      "repository": "agents-tools/cli",
+      "revision": "808b26e406d939e94970e1308e328fb9d202628a",
+      "path": "Documentation/Assets/Demo/Demo-dark.svg",
+      "file": "sources/cli/Documentation/Assets/Demo/Demo-dark.svg",
+      "sha256": "99aea5d79d4fa001fdaf8883025a1d0b63f41714e5da6c6f8f4287e9eca632bb"
+    },
+    {
+      "repository": "agents-tools/cli",
+      "revision": "808b26e406d939e94970e1308e328fb9d202628a",
+      "path": "LICENSE",
+      "file": "sources/cli/LICENSE",
+      "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
+    }
+  ]
+}

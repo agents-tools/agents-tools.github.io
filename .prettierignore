@@ -1,0 +1,8 @@
+sources/
+dist/
+node_modules/
+.build/
+.agent/
+.claude/
+test-results/
+playwright-report/

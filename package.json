@@ -1,0 +1,35 @@
+{
+  "name": "agents-tools.github.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/render-site.mjs && vite",
+    "build": "node scripts/render-site.mjs && vite build",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:html": "node scripts/render-site.mjs && html-validate .build/site/index.html .build/site/docs/cli/index.html",
+    "check:links": "node scripts/check-links.mjs",
+    "sources:update": "node scripts/sources.mjs update",
+    "sources:check": "node scripts/sources.mjs check",
+    "test:unit": "node --test scripts/*.test.mjs",
+    "test": "playwright test",
+    "test:install": "playwright install chromium",
+    "screenshots": "node scripts/screenshots.mjs",
+    "check": "npm run format:check && npm run sources:check && npm run test:unit && npm run check:html && npm run build && npm run check:links && npm test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "github-slugger": "2.0.0",
+    "html-validate": "11.16.1",
+    "markdown-it": "15.0.3",
+    "parse5": "8.0.1",
+    "prettier": "3.9.9",
+    "vite": "8.3.2",
+    "wawoff2": "2.0.1"
+  }
+}
