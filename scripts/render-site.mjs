@@ -71,13 +71,14 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   const title = catalog.promise.heading;
 
   function page(path, pageTitle, content) {
+    const documentTitle = path === "/" ? "agents" : `${pageTitle} · agents`;
     return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <title>${escape(pageTitle)} · agents</title>
+    <title>${escape(documentTitle)}</title>
     <meta name="description" content="${escape(catalog.promise.description)}">
     <link rel="canonical" href="${escape(`${origin}${path}`)}">
     <link rel="icon" type="image/png" href="${escape(icon)}">
