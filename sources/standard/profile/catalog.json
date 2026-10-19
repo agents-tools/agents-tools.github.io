@@ -1,9 +1,9 @@
 {
   "organization": "agents-tools",
   "promise": {
-    "heading": "A package manager for agent skills and instructions.",
-    "secondary": "One command installs skills and writes the shared sections of AGENTS.md for Codex, Claude Code, Cursor, Gemini CLI and OpenCode, locks every version, reports drift and renders the same instructions for ChatGPT.",
-    "description": "A package manager for the skills and instructions of Codex, Claude Code, Cursor, Gemini CLI, OpenCode and ChatGPT."
+    "heading": "Install and update agent skills and instructions, resolved to exact versions.",
+    "secondary": "Works with Codex, Claude Code, Cursor, Gemini CLI and OpenCode. Instructions become managed sections of each agent's instruction file, upstream changes are previewed before you apply them, and the same instructions render for ChatGPT.",
+    "description": "Install and update the skills and instructions of Codex, Claude Code, Cursor, Gemini CLI and OpenCode, resolved to exact versions."
   },
   "mark": {
     "path": "profile/assets/icon.png",

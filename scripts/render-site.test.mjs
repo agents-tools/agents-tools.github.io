@@ -102,6 +102,23 @@ function elements(node, tagName) {
   ];
 }
 
+test("uses the brand for the home document title and the catalog heading for social titles", () => {
+  const { home, documentation } = renderSite(inputs);
+  const document = parse(home);
+  assert.equal(elements(document, "title")[0].childNodes[0].value, "agents");
+  assert.equal(elements(document, "h1")[0].childNodes[0].value, inputs.catalog.promise.heading);
+  for (const key of ["og:title", "twitter:title"]) {
+    const meta = elements(document, "meta").find((node) =>
+      node.attrs.some(({ name, value }) => ["name", "property"].includes(name) && value === key),
+    );
+    assert.equal(
+      meta.attrs.find(({ name }) => name === "content").value,
+      inputs.catalog.promise.heading,
+    );
+  }
+  assert.match(documentation, /<title>CLI Reference · agents<\/title>/);
+});
+
 test("escapes vendored mark paths and valid navigation URLs in both pages", () => {
   const candidate = structuredClone(inputs);
   const path = 'profile/assets/icon.png" data-injected="yes&<';
