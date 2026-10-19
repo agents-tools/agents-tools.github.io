@@ -11,24 +11,29 @@ const inputs = {
   reference: await readFile("sources/cli/Documentation/Reference/CLI.md", "utf8"),
 };
 
-for (const path of ['profile/assets/icon.png" onerror="alert(1)', "profile/assets/missing.png"]) {
-  test(`rejects a catalog mark path absent from sources.json: ${path}`, () => {
-    const candidate = structuredClone(inputs);
-    candidate.catalog.mark.path = path;
-    assert.throws(() => renderSite(candidate), /Catalog mark path.*vendored.*sources\.json/);
+const RAW = "https://raw.githubusercontent.com";
+
+for (const url of [
+  `${RAW}/agents-tools/.github/HEAD/profile/assets/icon.png" onerror="alert(1)`,
+  `${RAW}/agents-tools/.github/HEAD/profile/assets/missing.png`,
+  `${RAW}/agents-tools/cli/HEAD/profile/assets/icon.png`,
+  `${RAW}/agents-tools/.github/HEAD/Brand/Fonts/GoogleSansCodeProportional-Regular.woff2`,
+  "https://example.com/icon.png",
+  "../assets/icon.png",
+  `${RAW}/agents-tools/.github/HEAD/profile/assets/%E0%A4%A.png`,
+]) {
+  test(`rejects a catalog image that is not a vendored raw GitHub file: ${url}`, () => {
+    for (const place of ["mark", "icon"]) {
+      const candidate = structuredClone(inputs);
+      if (place === "mark") candidate.catalog.mark = url;
+      else candidate.catalog.groups[0].repositories[0].icon = url;
+      assert.throws(
+        () => renderSite(candidate),
+        /Catalog image must be a vendored raw GitHub file/,
+      );
+    }
   });
 }
-
-test("requires the mark's upstream path from the organization repository", () => {
-  for (const path of [
-    "sources/standard/profile/assets/icon.png",
-    "Documentation/Assets/Demo/Demo-light.svg",
-  ]) {
-    const candidate = structuredClone(inputs);
-    candidate.catalog.mark.path = path;
-    assert.throws(() => renderSite(candidate), /Catalog mark path.*vendored.*sources\.json/);
-  }
-});
 
 for (const url of [
   "javascript:alert(1)",
@@ -37,61 +42,37 @@ for (const url of [
   "//example.com/",
   "https://",
 ]) {
-  test(`rejects catalog navigation without an absolute HTTPS URL: ${url}`, () => {
+  test(`rejects catalog links without an absolute HTTPS URL: ${url}`, () => {
     const candidate = structuredClone(inputs);
-    candidate.catalog.navigation[0].url = url;
+    candidate.catalog.navigation.contributing.url = url;
     assert.throws(() => renderSite(candidate), /Catalog navigation URL.*absolute https:/);
+    const maintained = structuredClone(inputs);
+    maintained.catalog.maintainer.url = url;
+    assert.throws(() => renderSite(maintained), /Catalog maintainer URL.*absolute https:/);
   });
 }
 
 for (const value of ["bad/name", 'bad"name', "bad?name", "", null, 123]) {
   test(`rejects an invalid GitHub organization or repository name: ${JSON.stringify(value)}`, () => {
     const candidate = structuredClone(inputs);
-    candidate.catalog.organization = value;
+    candidate.catalog.organization.login = value;
     assert.throws(() => renderSite(candidate), /Invalid catalog organization/);
-    candidate.catalog.organization = inputs.catalog.organization;
+    candidate.catalog.organization.login = inputs.catalog.organization.login;
     candidate.catalog.groups.at(-1).repositories.at(-1).name = value;
     assert.throws(() => renderSite(candidate), /Invalid catalog repository name/);
   });
 }
 
-test("rejects Markdown images in repository summaries", () => {
+test("renders repository outcomes as escaped plain text", () => {
   const candidate = structuredClone(inputs);
-  candidate.catalog.groups[0].repositories[0].summary = "![remote](https://example.com/image.png)";
-  assert.throws(
-    () => renderSite(candidate),
-    /Markdown image needs an explicit vendored source: https:\/\/example\.com\/image\.png/,
-  );
-});
-
-test("rewrites summary links using the catalog's pinned source identity", () => {
-  const candidate = structuredClone(inputs);
-  candidate.catalog.groups[0].repositories[0].summary =
-    "[guide](../CONTRIBUTING.md#development) [anchor](#repositories)";
-  const source = inputs.manifest.files.find(
-    (entry) => entry.repository === "agents-tools/.github" && entry.path === "profile/catalog.json",
-  );
+  candidate.catalog.groups[0].repositories[0].outcome =
+    '[link](javascript:alert(1)) <script>alert("x")</script> `agents`';
   const { home } = renderSite(candidate);
   assert.ok(
     home.includes(
-      `<a href="https://github.com/agents-tools/.github/blob/${source.revision}/CONTRIBUTING.md#development">guide</a>`,
+      "[link](javascript:alert(1)) &lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt; `agents`",
     ),
   );
-  assert.ok(
-    home.includes(
-      `<a href="https://github.com/agents-tools/.github/blob/${source.revision}/profile/catalog.json#repositories">anchor</a>`,
-    ),
-  );
-});
-
-test("retains Markdown link validation and HTML escaping in summaries", () => {
-  const candidate = structuredClone(inputs);
-  candidate.catalog.groups[0].repositories[0].summary =
-    '[unsafe](javascript:alert(1)) <script>alert("x")</script> `agents`';
-  const { home } = renderSite(candidate);
-  assert.ok(home.includes("[unsafe](javascript:alert(1))"));
-  assert.ok(home.includes("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;"));
-  assert.ok(home.includes("<code>agents</code>"));
   assert.ok(!home.includes('href="javascript:'));
 });
 
@@ -106,31 +87,28 @@ test("uses the brand for the home document title and the catalog heading for soc
   const { home, documentation } = renderSite(inputs);
   const document = parse(home);
   assert.equal(elements(document, "title")[0].childNodes[0].value, "agents");
-  assert.equal(elements(document, "h1")[0].childNodes[0].value, inputs.catalog.promise.heading);
+  assert.equal(elements(document, "h1")[0].childNodes[0].value, inputs.catalog.promise);
   for (const key of ["og:title", "twitter:title"]) {
     const meta = elements(document, "meta").find((node) =>
       node.attrs.some(({ name, value }) => ["name", "property"].includes(name) && value === key),
     );
-    assert.equal(
-      meta.attrs.find(({ name }) => name === "content").value,
-      inputs.catalog.promise.heading,
-    );
+    assert.equal(meta.attrs.find(({ name }) => name === "content").value, inputs.catalog.promise);
   }
   assert.match(documentation, /<title>CLI Reference · agents<\/title>/);
 });
 
-test("escapes vendored mark paths and valid navigation URLs in both pages", () => {
+test("serves vendored images and escapes catalog values in both pages", () => {
   const candidate = structuredClone(inputs);
   const path = 'profile/assets/icon.png" data-injected="yes&<';
-  candidate.catalog.mark.path = path;
+  candidate.catalog.mark = `${RAW}/agents-tools/.github/HEAD/${encodeURIComponent(path)}`;
   candidate.manifest.files.push({
     repository: "agents-tools/.github",
     revision: "a".repeat(40),
     path,
     file: `sources/standard/${path}`,
   });
-  candidate.catalog.navigation[0].url = 'https://example.com/?q="quoted"&next=<value>';
-  candidate.catalog.mark.alt = 'Mark "quoted" & <value>';
+  candidate.catalog.organization.name = 'Mark "quoted" & <value>';
+  candidate.catalog.navigation.contributing.url = 'https://example.com/?q="quoted"&next=<value>';
   for (const html of Object.values(renderSite(candidate))) {
     const document = parse(html);
     const icon = elements(document, "link").find((node) =>
@@ -139,15 +117,47 @@ test("escapes vendored mark paths and valid navigation URLs in both pages", () =
     const mark = elements(document, "img")[0];
     assert.equal(icon.attrs.find(({ name }) => name === "href").value, `/assets/standard/${path}`);
     assert.equal(mark.attrs.find(({ name }) => name === "src").value, `/assets/standard/${path}`);
-    assert.equal(mark.attrs.find(({ name }) => name === "alt").value, candidate.catalog.mark.alt);
+    assert.equal(
+      mark.attrs.find(({ name }) => name === "alt").value,
+      'Mark "quoted" & <value> mark',
+    );
     assert.ok(!icon.attrs.some(({ name }) => name === "data-injected"));
     assert.ok(!mark.attrs.some(({ name }) => name === "data-injected"));
     assert.ok(
       elements(document, "a").some((node) =>
         node.attrs.some(
-          ({ name, value }) => name === "href" && value === candidate.catalog.navigation[0].url,
+          ({ name, value }) =>
+            name === "href" && value === candidate.catalog.navigation.contributing.url,
         ),
       ),
     );
   }
+});
+
+test("lists repositories with their vendored icons and a light/dark picture when declared", () => {
+  const { home } = renderSite(inputs);
+  for (const source of [
+    "/assets/cli/Documentation/Assets/Logo.png",
+    "/assets/core/Documentation/Assets/Logo.svg",
+  ])
+    assert.ok(home.includes(`<img src="${source}" width="32" height="32" alt="">`), source);
+  const candidate = structuredClone(inputs);
+  candidate.catalog.groups[0].repositories[0].icon = {
+    light: `${RAW}/agents-tools/cli/HEAD/Documentation/Assets/Logo.png`,
+    dark: `${RAW}/agents-tools/.github/HEAD/profile/assets/icon.png`,
+  };
+  assert.ok(
+    renderSite(candidate).home.includes(
+      '<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="/assets/cli/Documentation/Assets/Logo.png"',
+    ),
+  );
+});
+
+test("links the website's own documentation in the header, not the footer", () => {
+  const { home } = renderSite(inputs);
+  const footer = home.slice(home.indexOf("<footer"));
+  assert.ok(!footer.includes(inputs.catalog.navigation.documentation.url));
+  for (const role of ["contributing", "security", "support"])
+    assert.ok(footer.includes(`>${inputs.catalog.navigation[role].label}</a>`), role);
+  assert.ok(footer.includes(`>${inputs.catalog.maintainer.label}</a>`));
 });

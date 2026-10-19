@@ -1,43 +1,39 @@
 {
-  "organization": "agents-tools",
-  "promise": {
-    "heading": "Install and update agent skills and instructions, resolved to exact versions.",
-    "secondary": "Works with Codex, Claude Code, Cursor, Gemini CLI and OpenCode. Instructions become managed sections of each agent's instruction file, upstream changes are previewed before you apply them, and the same instructions render for ChatGPT.",
-    "description": "Install and update the skills and instructions of Codex, Claude Code, Cursor, Gemini CLI and OpenCode, resolved to exact versions."
+  "organization": {
+    "login": "agents-tools",
+    "name": "agents"
   },
-  "mark": {
-    "path": "profile/assets/icon.png",
-    "alt": "agents icon"
-  },
-  "navigation": [
-    {
-      "title": "Design",
-      "url": "https://github.com/agents-tools/core/blob/master/Documentation/Proposals/AgentInstructions.md"
+  "promise": "Install and update agent skills and instructions, resolved to exact versions.",
+  "secondary": "Works with Codex, Claude Code, Cursor, Gemini CLI and OpenCode. Instructions become managed sections of each agent's instruction file, upstream changes are previewed before you apply them, and the same instructions render for ChatGPT.",
+  "description": "Install and update the skills and instructions of Codex, Claude Code, Cursor, Gemini CLI and OpenCode, resolved to exact versions.",
+  "website": "https://agents-tools.github.io/",
+  "mark": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png",
+  "navigation": {
+    "documentation": {
+      "label": "Documentation",
+      "url": "https://agents-tools.github.io/"
     },
-    {
-      "title": "Contributing",
+    "contributing": {
+      "label": "Contributing",
       "url": "https://github.com/agents-tools/.github/blob/master/CONTRIBUTING.md"
     },
-    {
-      "title": "Security",
+    "security": {
+      "label": "Security",
       "url": "https://github.com/agents-tools/.github/blob/master/SECURITY.md"
     },
-    {
-      "title": "Support",
+    "support": {
+      "label": "Support",
       "url": "https://github.com/agents-tools/.github/blob/master/SUPPORT.md"
-    },
-    {
-      "title": "skill-cli",
-      "url": "https://github.com/skill-cli"
     }
-  ],
+  },
   "groups": [
     {
       "title": "Use agents",
       "repositories": [
         {
           "name": "cli",
-          "summary": "The `agents` command: add skills and instructions from local paths, Git repositories or well-known indexes, write them for each agent, restore them from the lock and watch sources for changes."
+          "outcome": "The agents command: add skills and instructions from local paths, Git repositories or well-known indexes, write them for each agent, restore them from the lock and watch sources for changes.",
+          "icon": "https://raw.githubusercontent.com/agents-tools/cli/HEAD/Documentation/Assets/Logo.png"
         }
       ]
     },
@@ -46,7 +42,8 @@
       "repositories": [
         {
           "name": "core",
-          "summary": "Swift library behind `agents` and `skill`: sources, declaration, lock, cache, skills and instructions."
+          "outcome": "Swift library behind agents and skill: sources, declaration, lock, cache, skills and instructions.",
+          "icon": "https://raw.githubusercontent.com/agents-tools/core/HEAD/Documentation/Assets/Logo.svg"
         }
       ]
     },
@@ -55,7 +52,8 @@
       "repositories": [
         {
           "name": "homebrew-tap",
-          "summary": "Homebrew tap for `agents`."
+          "outcome": "Install agents with Homebrew.",
+          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png"
         }
       ]
     },
@@ -64,9 +62,14 @@
       "repositories": [
         {
           "name": "agents-tools.github.io",
-          "summary": "Source for the agents website."
+          "outcome": "Source for the agents website.",
+          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png"
         }
       ]
     }
-  ]
+  ],
+  "maintainer": {
+    "label": "Maintained by @showxu",
+    "url": "https://github.com/showxu"
+  }
 }

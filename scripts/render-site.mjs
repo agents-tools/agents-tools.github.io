@@ -4,34 +4,73 @@ import { fileURLToPath } from "node:url";
 import { parse } from "parse5";
 import { escape, renderMarkdown, section } from "./markdown.mjs";
 
+const RAW_ASSET =
+  /^https:\/\/raw\.githubusercontent\.com\/([A-Za-z0-9._-]+)\/([A-Za-z0-9._-]+)\/[^/?#]+\/([^?#]+)$/;
+const FOOTER_ROLES = ["contributing", "security", "support"];
+
 function validateGitHubName(value, label) {
   if (typeof value !== "string" || !/^[A-Za-z0-9._-]+$/.test(value))
     throw new Error(`Invalid catalog ${label}: ${JSON.stringify(value)}`);
 }
 
-export function renderSite({ manifest, catalog, readme, reference }) {
-  if (
-    !manifest.files.some(
-      (entry) => entry.repository === "agents-tools/.github" && entry.path === catalog.mark.path,
-    )
-  )
-    throw new Error(
-      `Catalog mark path must match a vendored agents-tools/.github path in sources.json: ${catalog.mark.path}`,
+function validateHttps(url, label) {
+  if (typeof url !== "string" || !URL.canParse(url) || new URL(url).protocol !== "https:")
+    throw new Error(`Catalog ${label} URL must be an absolute https: URL: ${url}`);
+}
+
+// Catalog images are raw GitHub URLs; the site serves only their vendored copies.
+function vendoredAsset(manifest, url) {
+  const match = typeof url === "string" ? url.match(RAW_ASSET) : null;
+  let path = null;
+  try {
+    path = match ? decodeURIComponent(match[3]) : null;
+  } catch {}
+  const entry =
+    path &&
+    manifest.files.find(
+      (file) =>
+        file.repository === `${match[1]}/${match[2]}` && file.path === path && !file.transform,
     );
-  for (const { url } of catalog.navigation) {
-    if (typeof url !== "string" || !URL.canParse(url) || new URL(url).protocol !== "https:")
-      throw new Error(`Catalog navigation URL must be an absolute https: URL: ${url}`);
-  }
-  validateGitHubName(catalog.organization, "organization");
+  if (!entry)
+    throw new Error(`Catalog image must be a vendored raw GitHub file in sources.json: ${url}`);
+  return `/assets/${entry.file.slice("sources/".length)}`;
+}
+
+function vendoredImage(manifest, value) {
+  if (typeof value === "string") return { light: vendoredAsset(manifest, value) };
+  if (value && typeof value === "object")
+    return {
+      light: vendoredAsset(manifest, value.light),
+      dark: vendoredAsset(manifest, value.dark),
+    };
+  throw new Error("Catalog image must be a URL or {light, dark} URLs");
+}
+
+function imageTag({ light, dark }, size, alt) {
+  const img = `<img src="${escape(light)}" width="${size}" height="${size}" alt="${escape(alt)}">`;
+  return dark
+    ? `<picture><source media="(prefers-color-scheme: dark)" srcset="${escape(dark)}">${img}</picture>`
+    : img;
+}
+
+export function renderSite({ manifest, catalog, readme, reference }) {
+  const mark = vendoredImage(manifest, catalog.mark);
+  for (const { url } of Object.values(catalog.navigation)) validateHttps(url, "navigation");
+  if (catalog.maintainer) validateHttps(catalog.maintainer.url, "maintainer");
+  const owner = catalog.organization.login;
+  validateGitHubName(owner, "organization");
+  const icons = new Map();
   for (const group of catalog.groups)
-    for (const { name } of group.repositories) validateGitHubName(name, "repository name");
+    for (const { name, icon } of group.repositories) {
+      validateGitHubName(name, "repository name");
+      icons.set(name, vendoredImage(manifest, icon));
+    }
 
   const catalogSource = manifest.files.find(
     (entry) => entry.repository === "agents-tools/.github" && entry.path === "profile/catalog.json",
   );
   if (!catalogSource)
     throw new Error("Missing agents-tools/.github catalog source in sources.json");
-  const catalogIdentity = { ...catalogSource, label: "Repository summary" };
   const cliRevision = manifest.files.find(
     (entry) => entry.repository === "agents-tools/cli",
   ).revision;
@@ -65,10 +104,15 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   if (!demoAlt) throw new Error("CLI README must supply the demo alternative text");
 
   const origin = "https://agents-tools.github.io";
-  const icon = `/assets/standard/${catalog.mark.path}`;
   const social = "/assets/standard/Brand/Social/cli/card.png";
   const demo = "/assets/cli/Documentation/Assets/Demo/";
-  const title = catalog.promise.heading;
+  const title = catalog.promise;
+  const footer = [
+    ...FOOTER_ROLES.filter((role) => catalog.navigation[role]).map(
+      (role) => catalog.navigation[role],
+    ),
+    ...(catalog.maintainer ? [catalog.maintainer] : []),
+  ];
 
   function page(path, pageTitle, content) {
     const documentTitle = path === "/" ? "agents" : `${pageTitle} · agents`;
@@ -79,13 +123,13 @@ export function renderSite({ manifest, catalog, readme, reference }) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>${escape(documentTitle)}</title>
-    <meta name="description" content="${escape(catalog.promise.description)}">
+    <meta name="description" content="${escape(catalog.description)}">
     <link rel="canonical" href="${escape(`${origin}${path}`)}">
-    <link rel="icon" type="image/png" href="${escape(icon)}">
+    <link rel="icon" type="image/png" href="${escape(mark.light)}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="agents">
     <meta property="og:title" content="${escape(pageTitle)}">
-    <meta property="og:description" content="${escape(catalog.promise.description)}">
+    <meta property="og:description" content="${escape(catalog.description)}">
     <meta property="og:url" content="${escape(`${origin}${path}`)}">
     <meta property="og:image" content="${escape(`${origin}${social}`)}">
     <meta property="og:image:width" content="1280">
@@ -93,7 +137,7 @@ export function renderSite({ manifest, catalog, readme, reference }) {
     <meta property="og:image:alt" content="${escape(title)}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escape(pageTitle)}">
-    <meta name="twitter:description" content="${escape(catalog.promise.description)}">
+    <meta name="twitter:description" content="${escape(catalog.description)}">
     <meta name="twitter:image" content="${escape(`${origin}${social}`)}">
     <meta name="twitter:image:alt" content="${escape(title)}">
     <link rel="stylesheet" href="/site.css">
@@ -101,11 +145,11 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header container">
-      <a class="brand" href="/" aria-label="agents home"><img src="${escape(icon)}" width="40" height="40" alt="${escape(catalog.mark.alt)}"><span>agents</span></a>
-      <nav aria-label="Primary"><a href="/#install">Install</a><a href="/#usage">Usage</a><a href="/docs/cli/"${path === "/docs/cli/" ? ' aria-current="page"' : ""}>Docs</a><a href="${escape(`https://github.com/${catalog.organization}`)}">GitHub</a></nav>
+      <a class="brand" href="/" aria-label="agents home">${imageTag(mark, 40, `${catalog.organization.name} mark`)}<span>agents</span></a>
+      <nav aria-label="Primary"><a href="/#install">Install</a><a href="/#usage">Usage</a><a href="/docs/cli/"${path === "/docs/cli/" ? ' aria-current="page"' : ""}>Docs</a><a href="${escape(`https://github.com/${owner}`)}">GitHub</a></nav>
     </header>
     <main id="main" class="container" tabindex="-1">${content}</main>
-    <footer class="site-footer container"><nav aria-label="Footer">${catalog.navigation.map(({ title, url }) => `<a href="${escape(url)}">${escape(title)}</a>`).join("")}</nav></footer>
+    <footer class="site-footer container"><nav aria-label="Footer">${footer.map(({ label, url }) => `<a href="${escape(url)}">${escape(label)}</a>`).join("")}</nav></footer>
   </body>
 </html>\n`;
   }
@@ -114,7 +158,7 @@ export function renderSite({ manifest, catalog, readme, reference }) {
     "/",
     title,
     `
-  <div class="hero"><h1>${escape(title)}</h1><p class="lede">${escape(catalog.promise.secondary)}</p></div>
+  <div class="hero"><h1>${escape(title)}</h1><p class="lede">${escape(catalog.secondary)}</p></div>
   <section class="section quick-look"><h2 id="quick-look">Quick look</h2>
   <!-- html-validate-disable-next prefer-native-element: The region is the section's keyboard scroll container. -->
   <div class="quick-look-frame" tabindex="0" role="region" aria-labelledby="quick-look"><picture>
@@ -124,7 +168,7 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   <section class="section prose" aria-labelledby="install">${install.html}</section>
   <section class="section prose" aria-labelledby="usage">${usage.html}</section>
   <section class="section" aria-labelledby="repositories"><h2 id="repositories">Repositories</h2>
-    <div class="repositories">${catalog.groups.map((group) => `<section class="repository-group"><h3>${escape(group.title)}</h3><ul>${group.repositories.map(({ name, summary }) => `<li><a class="repository-name" href="${escape(`https://github.com/${catalog.organization}/${name}`)}">${escape(name)}</a><p>${renderMarkdown(summary, catalogIdentity, { inline: true }).html}</p></li>`).join("")}</ul></section>`).join("")}</div>
+    <div class="repositories">${catalog.groups.map((group) => `<section class="repository-group"><h3>${escape(group.title)}</h3><ul>${group.repositories.map(({ name, outcome }) => `<li>${imageTag(icons.get(name), 32, "")}<div><a class="repository-name" href="${escape(`https://github.com/${owner}/${name}`)}">${escape(name)}</a><p>${escape(outcome)}</p></div></li>`).join("")}</ul></section>`).join("")}</div>
   </section>`,
   );
 
