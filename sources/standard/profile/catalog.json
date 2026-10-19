@@ -26,6 +26,14 @@
       "url": "https://github.com/agents-tools/.github/blob/master/SUPPORT.md"
     }
   },
+  "quickstart": {
+    "title": "Get started",
+    "commands": [
+      "brew install agents-tools/tap/agents",
+      "agents skills add owner/repo name",
+      "agents skills list"
+    ]
+  },
   "groups": [
     {
       "title": "Use agents",

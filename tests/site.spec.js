@@ -72,7 +72,9 @@ for (const path of ["/", "/docs/cli/"]) {
       } else {
         expect(scrolling.scrollWidth).toBe(scrolling.width);
       }
-      await expect(page.locator("#install + p")).toHaveText("Build from source:");
+      await expect(page.locator("#install + p")).toHaveText(
+        "Install the latest release from the Homebrew tap:",
+      );
       await expect(page.locator(".repositories li")).toHaveCount(
         catalog.groups.flatMap((group) => group.repositories).length,
       );
