@@ -86,10 +86,12 @@ const home = page(
   title,
   `
   <div class="hero"><h1>${escape(title)}</h1><p class="lede">${escape(catalog.promise.secondary)}</p></div>
-  <section class="section quick-look" aria-labelledby="quick-look"><h2 id="quick-look">Quick look</h2><picture>
+  <section class="section quick-look"><h2 id="quick-look">Quick look</h2>
+  <!-- html-validate-disable-next prefer-native-element: The region is the section's keyboard scroll container. -->
+  <div class="quick-look-frame" tabindex="0" role="region" aria-labelledby="quick-look"><picture>
     <source media="(prefers-color-scheme: dark)" srcset="${demo}Demo-dark.svg">
     <img src="${demo}Demo-light.svg" width="763" height="788" alt="${escape(demoAlt)}" fetchpriority="high">
-  </picture></section>
+  </picture></div></section>
   <section class="section prose" aria-labelledby="install">${install.html}</section>
   <section class="section prose" aria-labelledby="usage">${usage.html}</section>
   <section class="section" aria-labelledby="repositories"><h2 id="repositories">Repositories</h2>

@@ -50,6 +50,28 @@ for (const path of ["/", "/docs/cli/"]) {
       expect(await page.locator("picture img").evaluate((image) => image.currentSrc)).toContain(
         `Demo-${testInfo.project.use.colorScheme}.svg`,
       );
+      const recording = await page.locator(".quick-look img").evaluate((image) => ({
+        width: image.getBoundingClientRect().width,
+        columnWidth: image.closest(".container").getBoundingClientRect().width,
+      }));
+      if (testInfo.project.use.viewport.width <= 375) {
+        expect(recording.width).toBeGreaterThanOrEqual(763);
+      } else {
+        expect(recording.width).toBe(recording.columnWidth);
+      }
+      const frame = page.locator(".quick-look-frame");
+      await expect(frame).toHaveAttribute("tabindex", "0");
+      await expect(frame).toHaveRole("region");
+      await expect(frame).toHaveAccessibleName("Quick look");
+      const scrolling = await frame.evaluate((element) => ({
+        width: element.clientWidth,
+        scrollWidth: element.scrollWidth,
+      }));
+      if (testInfo.project.use.viewport.width <= 375) {
+        expect(scrolling.scrollWidth).toBeGreaterThan(scrolling.width);
+      } else {
+        expect(scrolling.scrollWidth).toBe(scrolling.width);
+      }
       await expect(page.locator("#install + p")).toHaveText("Build from source:");
       await expect(page.locator(".repositories li")).toHaveCount(
         catalog.groups.flatMap((group) => group.repositories).length,

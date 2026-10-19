@@ -159,6 +159,9 @@ p {
 .section {
   margin-bottom: 72px;
 }
+.quick-look-frame {
+  overflow-x: auto;
+}
 .quick-look img {
   display: block;
   width: 100%;
@@ -290,6 +293,12 @@ blockquote {
   border-left: 3px solid var(--border);
   padding-left: 20px;
   color: var(--muted);
+}
+
+@media (width < 792px) {
+  .quick-look img {
+    min-width: 763px;
+  }
 }
 
 @media (max-width: 540px) {
