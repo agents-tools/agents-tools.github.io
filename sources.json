@@ -72,7 +72,9 @@
       "revision": "6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97",
       "path": "Brand/Fonts/OFL.txt",
       "file": "sources/standard/Brand/Fonts/OFL.txt",
-      "sha256": "ff8f4fbc4f1a71c7d4c6481c48dc2b21c43f8dc15872536667fee45c15d20928"
+      "sha256": "75551cee9757e2832567deb2c17ba50cd2221014fa8881b855fc7c3e3fc84eca",
+      "transform": "strip-trailing-whitespace",
+      "source_sha256": "ff8f4fbc4f1a71c7d4c6481c48dc2b21c43f8dc15872536667fee45c15d20928"
     },
     {
       "repository": "agents-tools/.github",

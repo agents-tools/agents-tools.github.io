@@ -68,8 +68,9 @@ test evidence live in ignored `.build/`; Vite writes the deployable site to igno
 ## Content sources
 
 [`sources.json`](sources.json) records each file's owning repository, full revision, upstream path,
-local path and SHA-256. `sources/` holds the exact input bytes and derived WOFF2 fonts. Never edit
-these files by hand.
+local path, SHA-256 and any transform. `sources/` holds the input files and derived assets. The font
+license strips trailing spaces and tabs, with its upstream digest recorded as `source_sha256`. Never
+edit these files by hand.
 
 ```sh
 npm run sources:update

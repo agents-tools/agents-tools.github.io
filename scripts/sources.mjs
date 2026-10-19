@@ -33,6 +33,9 @@ export const definitions = {
 
 export const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
+export const stripTrailingWhitespace = (bytes) =>
+  Buffer.from(bytes.toString("latin1").replace(/[ \t]+(?=[\r\n]|$)/g, ""), "latin1");
+
 async function inventory(directory) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -69,6 +72,16 @@ export async function checkSources() {
           const input = await readFile(`sources/${key}/${path}`);
           if (digest(await compress(input)) !== entry.sha256)
             throw new Error(`Font conversion is not reproducible: ${file}`);
+        } else if (path === "Brand/Fonts/OFL.txt") {
+          if (entry.transform !== "strip-trailing-whitespace")
+            throw new Error(`Unknown transform: ${file}`);
+          if (
+            typeof entry.source_sha256 !== "string" ||
+            !/^[0-9a-f]{64}$/.test(entry.source_sha256)
+          )
+            throw new Error(`Invalid source digest: ${file}`);
+          if (!bytes.equals(stripTrailingWhitespace(bytes)))
+            throw new Error(`Trailing whitespace in source: ${file}`);
         } else if (entry.transform) throw new Error(`Unexpected transform: ${file}`);
       }
     }
@@ -114,9 +127,14 @@ async function updateSources(options) {
           "application/vnd.github.raw+json",
         );
         const original = Buffer.from(await response.arrayBuffer());
+        const stripped = path === "Brand/Fonts/OFL.txt";
         for (const converted of path.endsWith(".ttf") ? [false, true] : [false]) {
           const output = converted ? path.replace(/\.ttf$/, ".woff2") : path;
-          const bytes = converted ? Buffer.from(await compress(original)) : original;
+          const bytes = converted
+            ? Buffer.from(await compress(original))
+            : stripped
+              ? stripTrailingWhitespace(original)
+              : original;
           const file = `sources/${key}/${output}`;
           await mkdir(dirname(`.build/${file}`), { recursive: true });
           await writeFile(`.build/${file}`, bytes);
@@ -127,6 +145,9 @@ async function updateSources(options) {
             file,
             sha256: digest(bytes),
             ...(converted ? { transform: "wawoff2@2.0.1" } : {}),
+            ...(stripped
+              ? { transform: "strip-trailing-whitespace", source_sha256: digest(original) }
+              : {}),
           });
         }
       }
