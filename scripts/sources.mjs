@@ -26,8 +26,13 @@ export const definitions = {
       "Documentation/Reference/CLI.md",
       "Documentation/Assets/Demo/Demo-light.svg",
       "Documentation/Assets/Demo/Demo-dark.svg",
+      "Documentation/Assets/Logo.png",
       "LICENSE",
     ],
+  },
+  core: {
+    repository: "agents-tools/core",
+    paths: ["Documentation/Assets/Logo.svg", "LICENSE"],
   },
 };
 
@@ -169,10 +174,10 @@ async function updateSources(options) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const { values, positionals } = parseArgs({
     allowPositionals: true,
-    options: { cli: { type: "string" }, standard: { type: "string" } },
+    options: { cli: { type: "string" }, core: { type: "string" }, standard: { type: "string" } },
   });
   if (positionals.length !== 1) throw new Error("Use sources.mjs update or check");
   if (positionals[0] === "update") await updateSources(values);
   else if (positionals[0] === "check" && Object.keys(values).length === 0) await checkSources();
-  else throw new Error("Use sources.mjs update [--cli SHA] [--standard SHA] or check");
+  else throw new Error("Use sources.mjs update [--cli SHA] [--core SHA] [--standard SHA] or check");
 }

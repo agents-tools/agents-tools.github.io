@@ -221,6 +221,16 @@ pre code {
   padding: 0;
   margin: 0;
 }
+.repository-group li {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.repository-group li img {
+  display: block;
+  border-radius: 7px;
+}
 .repository-name {
   font-weight: 500;
   overflow-wrap: anywhere;

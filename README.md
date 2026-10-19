@@ -74,7 +74,7 @@ edit these files by hand.
 
 ```sh
 npm run sources:update
-npm run sources:update -- --cli <full-sha> --standard <full-sha>
+npm run sources:update -- --cli <full-sha> --core <full-sha> --standard <full-sha>
 npm run sources:check
 ```
 
@@ -84,11 +84,13 @@ authenticated API access. Unspecified repositories use their current `master`. D
 in `.build/sources/` and removed when the update finishes. Review and commit `sources/` and
 `sources.json` together.
 
-The organization catalog supplies the promise, mark, repository groups and footer links. The CLI
-README supplies Install, Usage and the demo's alternative text; its demo SVGs supply Quick look. The
-CLI reference supplies `/docs/cli/`. Source-relative Markdown links point to the owning revision on
-GitHub, except links to the CLI reference, which resolve locally. Headings use GitHub-compatible
-anchors.
+The organization catalog supplies the promise, secondary line, description, mark, repository groups
+and outcomes, footer links and maintainer line. Its images are raw GitHub URLs; the site serves only
+their vendored copies, so each must be listed in `sources.json` (the CLI and core logos are vendored
+from their repositories). The CLI README supplies Install, Usage and the demo's alternative text;
+its demo SVGs supply Quick look. The CLI reference supplies `/docs/cli/`. Source-relative Markdown
+links point to the owning revision on GitHub, except links to the CLI reference, which resolve
+locally. Headings use GitHub-compatible anchors.
 
 The organization supplies the social image, font files and licenses. Fonts are converted using the
 lockfile-pinned `wawoff2` WebAssembly encoder; `sources:check` reproduces them and verifies all

@@ -22,7 +22,7 @@ for (const path of ["/", "/docs/cli/"]) {
     await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      path === "/" ? catalog.promise.heading : "CLI Reference",
+      path === "/" ? catalog.promise : "CLI Reference",
     );
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -31,7 +31,7 @@ for (const path of ["/", "/docs/cli/"]) {
     );
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
-      catalog.promise.description,
+      catalog.description,
     );
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
       "content",
@@ -46,7 +46,7 @@ for (const path of ["/", "/docs/cli/"]) {
       .evaluateAll((images) => images.every((image) => image.complete && image.naturalWidth > 0));
     expect(loaded).toBe(true);
     if (path === "/") {
-      await expect(page.locator(".lede")).toHaveText(catalog.promise.secondary);
+      await expect(page.locator(".lede")).toHaveText(catalog.secondary);
       expect(await page.locator("picture img").evaluate((image) => image.currentSrc)).toContain(
         `Demo-${testInfo.project.use.colorScheme}.svg`,
       );
