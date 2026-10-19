@@ -31,8 +31,8 @@ export function rewriteLink(href, { repository, revision, path, anchors }) {
   return `https://github.com/${repository}/blob/${revision}/${sourcePath}${target.search}${target.hash}`;
 }
 
-export function renderMarkdown(source, identity) {
-  const tokens = markdown.parse(source, {});
+export function renderMarkdown(source, identity, { inline = false } = {}) {
+  const tokens = inline ? markdown.parseInline(source, {}) : markdown.parse(source, {});
   const slugger = new GithubSlugger();
   const headings = [];
   for (let index = 0; index < tokens.length; index++) {
