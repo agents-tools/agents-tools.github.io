@@ -9,6 +9,10 @@ const inputs = {
   catalog: JSON.parse(await readFile("sources/standard/profile/catalog.json", "utf8")),
   readme: await readFile("sources/cli/README.md", "utf8"),
   reference: await readFile("sources/cli/Documentation/Reference/CLI.md", "utf8"),
+  demoSvgs: {
+    light: await readFile("sources/cli/.github/assets/terminal/terminal-light.svg", "utf8"),
+    dark: await readFile("sources/cli/.github/assets/terminal/terminal-dark.svg", "utf8"),
+  },
 };
 
 const RAW = "https://raw.githubusercontent.com";
@@ -82,6 +86,69 @@ function elements(node, tagName) {
     ...(node.childNodes ?? []).flatMap((child) => elements(child, tagName)),
   ];
 }
+
+test("serves the terminal demo's theme images with the README alternative text and high priority", () => {
+  const candidate = structuredClone(inputs);
+  candidate.readme = `<img src=".github/assets/terminal/terminal-light.svg" alt="Session &quot;quoted&quot; &amp; steps">\n${candidate.readme}`;
+  const document = parse(renderSite(candidate).home);
+  const demo = elements(document, "img").find((node) =>
+    node.attrs.some(({ name, value }) => name === "src" && value.endsWith("terminal-light.svg")),
+  );
+  const attributes = Object.fromEntries(demo.attrs.map(({ name, value }) => [name, value]));
+  assert.equal(attributes.src, "/assets/cli/.github/assets/terminal/terminal-light.svg");
+  assert.equal(attributes.alt, 'Session "quoted" & steps');
+  assert.equal(attributes.fetchpriority, "high");
+  const source = elements(demo.parentNode, "source")[0];
+  assert.deepEqual(Object.fromEntries(source.attrs.map(({ name, value }) => [name, value])), {
+    media: "(prefers-color-scheme: dark)",
+    srcset: "/assets/cli/.github/assets/terminal/terminal-dark.svg",
+  });
+});
+
+test("reads terminal demo dimensions from the SVG roots", () => {
+  const candidate = structuredClone(inputs);
+  candidate.demoSvgs = {
+    light: '<svg width="321" height="654"><rect width="12" height="34"/></svg>',
+    dark: '<svg height="654" width="321"><rect width="56" height="78"/></svg>',
+  };
+  const document = parse(renderSite(candidate).home);
+  const demo = elements(document, "img").find((node) =>
+    node.attrs.some(({ name, value }) => name === "src" && value.endsWith("terminal-light.svg")),
+  );
+  assert.equal(demo.attrs.find(({ name }) => name === "width").value, "321");
+  assert.equal(demo.attrs.find(({ name }) => name === "height").value, "654");
+});
+
+test("requires positive integer width and height on both terminal demo SVG roots", () => {
+  for (const theme of ["light", "dark"]) {
+    for (const name of ["width", "height"]) {
+      for (const value of [null, "", "0", "-1", "12.5", "12px", "9007199254740992"]) {
+        const candidate = structuredClone(inputs);
+        const valid = '<svg width="321" height="654"/>';
+        candidate.demoSvgs = { light: valid, dark: valid };
+        candidate.demoSvgs[theme] = valid.replace(
+          new RegExp(`${name}="[^"]*"`),
+          value === null ? "" : `${name}="${value}"`,
+        );
+        assert.throws(
+          () => renderSite(candidate),
+          new RegExp(`Terminal demo ${theme} SVG root ${name} must be a positive integer`),
+        );
+      }
+    }
+  }
+});
+
+test("rejects mismatched terminal demo SVG widths or heights", () => {
+  for (const dark of ['<svg width="322" height="654"/>', '<svg width="321" height="655"/>']) {
+    const candidate = structuredClone(inputs);
+    candidate.demoSvgs = { light: '<svg width="321" height="654"/>', dark };
+    assert.throws(
+      () => renderSite(candidate),
+      /Terminal demo light and dark SVG dimensions must match/,
+    );
+  }
+});
 
 test("uses the brand for the home document title and the catalog heading for social titles", () => {
   const { home, documentation } = renderSite(inputs);

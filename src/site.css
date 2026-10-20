@@ -164,8 +164,9 @@ p {
 }
 .quick-look img {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
+  margin-inline: auto;
 }
 .prose {
   overflow-wrap: anywhere;
@@ -303,12 +304,6 @@ blockquote {
   border-left: 3px solid var(--border);
   padding-left: 20px;
   color: var(--muted);
-}
-
-@media (width < 792px) {
-  .quick-look img {
-    min-width: 763px;
-  }
 }
 
 @media (max-width: 540px) {

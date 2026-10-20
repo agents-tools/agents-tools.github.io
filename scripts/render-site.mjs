@@ -1,12 +1,13 @@
 import { mkdir, readFile, rm, copyFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parse } from "parse5";
+import { parse, parseFragment } from "parse5";
 import { escape, renderMarkdown, section } from "./markdown.mjs";
 
 const RAW_ASSET =
   /^https:\/\/raw\.githubusercontent\.com\/([A-Za-z0-9._-]+)\/([A-Za-z0-9._-]+)\/[^/?#]+\/([^?#]+)$/;
 const FOOTER_ROLES = ["contributing", "security", "support"];
+const DEMO_DIRECTORY = ".github/assets/terminal";
 
 function validateGitHubName(value, label) {
   if (typeof value !== "string" || !/^[A-Za-z0-9._-]+$/.test(value))
@@ -53,7 +54,19 @@ function imageTag({ light, dark }, size, alt) {
     : img;
 }
 
-export function renderSite({ manifest, catalog, readme, reference }) {
+function svgDimensions(source, theme) {
+  const root = parseFragment(source).childNodes.find((node) => node.tagName === "svg");
+  const dimensions = {};
+  for (const name of ["width", "height"]) {
+    const value = root?.attrs.find((attr) => attr.name === name)?.value;
+    if (!/^[1-9]\d*$/.test(value ?? "") || !Number.isSafeInteger(Number(value)))
+      throw new Error(`Terminal demo ${theme} SVG root ${name} must be a positive integer`);
+    dimensions[name] = Number(value);
+  }
+  return dimensions;
+}
+
+export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
   const mark = vendoredImage(manifest, catalog.mark);
   for (const { url } of Object.values(catalog.navigation)) validateHttps(url, "navigation");
   if (catalog.maintainer) validateHttps(catalog.maintainer.url, "maintainer");
@@ -92,7 +105,7 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   function findDemo(node) {
     if (
       node.tagName === "img" &&
-      node.attrs.some((attr) => attr.name === "src" && attr.value.endsWith("Demo-light.svg"))
+      node.attrs.some((attr) => attr.name === "src" && attr.value.endsWith("terminal-light.svg"))
     )
       return node.attrs.find((attr) => attr.name === "alt")?.value;
     for (const child of node.childNodes ?? []) {
@@ -102,10 +115,14 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   }
   const demoAlt = findDemo(parse(readme));
   if (!demoAlt) throw new Error("CLI README must supply the demo alternative text");
+  const demoSize = svgDimensions(demoSvgs.light, "light");
+  const darkSize = svgDimensions(demoSvgs.dark, "dark");
+  if (demoSize.width !== darkSize.width || demoSize.height !== darkSize.height)
+    throw new Error("Terminal demo light and dark SVG dimensions must match");
 
   const origin = "https://agents-tools.github.io";
   const social = "/assets/standard/Brand/Social/cli/card.png";
-  const demo = "/assets/cli/Documentation/Assets/Demo/";
+  const demo = `/assets/cli/${DEMO_DIRECTORY}/`;
   const title = catalog.promise;
   const footer = [
     ...FOOTER_ROLES.filter((role) => catalog.navigation[role]).map(
@@ -162,8 +179,8 @@ export function renderSite({ manifest, catalog, readme, reference }) {
   <section class="section quick-look"><h2 id="quick-look">Quick look</h2>
   <!-- html-validate-disable-next prefer-native-element: The region is the section's keyboard scroll container. -->
   <div class="quick-look-frame" tabindex="0" role="region" aria-labelledby="quick-look"><picture>
-    <source media="(prefers-color-scheme: dark)" srcset="${escape(`${demo}Demo-dark.svg`)}">
-    <img src="${escape(`${demo}Demo-light.svg`)}" width="763" height="788" alt="${escape(demoAlt)}" fetchpriority="high">
+    <source media="(prefers-color-scheme: dark)" srcset="${escape(`${demo}terminal-dark.svg`)}">
+    <img src="${escape(`${demo}terminal-light.svg`)}" width="${demoSize.width}" height="${demoSize.height}" alt="${escape(demoAlt)}" fetchpriority="high">
   </picture></div></section>
   <section class="section prose" aria-labelledby="install">${install.html}</section>
   <section class="section prose" aria-labelledby="usage">${usage.html}</section>
@@ -190,7 +207,11 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const catalog = JSON.parse(await readFile("sources/standard/profile/catalog.json", "utf8"));
   const readme = await readFile("sources/cli/README.md", "utf8");
   const reference = await readFile("sources/cli/Documentation/Reference/CLI.md", "utf8");
-  const { home, documentation } = renderSite({ manifest, catalog, readme, reference });
+  const demoSvgs = {
+    light: await readFile(`sources/cli/${DEMO_DIRECTORY}/terminal-light.svg`, "utf8"),
+    dark: await readFile(`sources/cli/${DEMO_DIRECTORY}/terminal-dark.svg`, "utf8"),
+  };
+  const { home, documentation } = renderSite({ manifest, catalog, readme, reference, demoSvgs });
   await rm(".build/site", { recursive: true, force: true });
   for (const [path, html] of [
     ["index.html", home],

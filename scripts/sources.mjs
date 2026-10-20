@@ -24,8 +24,8 @@ export const definitions = {
     paths: [
       "README.md",
       "Documentation/Reference/CLI.md",
-      "Documentation/Assets/Demo/Demo-light.svg",
-      "Documentation/Assets/Demo/Demo-dark.svg",
+      ".github/assets/terminal/terminal-light.svg",
+      ".github/assets/terminal/terminal-dark.svg",
       "Documentation/Assets/Logo.png",
       "LICENSE",
     ],
