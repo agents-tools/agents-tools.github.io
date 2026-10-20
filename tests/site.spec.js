@@ -48,17 +48,13 @@ for (const path of ["/", "/docs/cli/"]) {
     if (path === "/") {
       await expect(page.locator(".lede")).toHaveText(catalog.secondary);
       expect(await page.locator("picture img").evaluate((image) => image.currentSrc)).toContain(
-        `Demo-${testInfo.project.use.colorScheme}.svg`,
+        `/assets/cli/.github/assets/terminal/terminal-${testInfo.project.use.colorScheme}.svg`,
       );
       const recording = await page.locator(".quick-look img").evaluate((image) => ({
         width: image.getBoundingClientRect().width,
-        columnWidth: image.closest(".container").getBoundingClientRect().width,
+        naturalWidth: image.naturalWidth,
       }));
-      if (testInfo.project.use.viewport.width <= 375) {
-        expect(recording.width).toBeGreaterThanOrEqual(763);
-      } else {
-        expect(recording.width).toBe(recording.columnWidth);
-      }
+      expect(recording.width).toBe(recording.naturalWidth);
       const frame = page.locator(".quick-look-frame");
       await expect(frame).toHaveAttribute("tabindex", "0");
       await expect(frame).toHaveRole("region");

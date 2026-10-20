@@ -85,42 +85,42 @@
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "4aa20cee2003150b3312948698832f8a71877192",
+      "revision": "f41d60a133740e56938be31c9f1765bc02985aed",
       "path": "README.md",
       "file": "sources/cli/README.md",
-      "sha256": "4b7084b313bac773ab4a5844c0ae62b7aaab7f8cfb98588b7eaa060c57d77856"
+      "sha256": "30056f33ecddea3aec3e551fb8c731383838fd3ce44ba8c7c510f1d0f0d5acf1"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "4aa20cee2003150b3312948698832f8a71877192",
+      "revision": "f41d60a133740e56938be31c9f1765bc02985aed",
       "path": "Documentation/Reference/CLI.md",
       "file": "sources/cli/Documentation/Reference/CLI.md",
-      "sha256": "ad3119bd8c5779407a41f6ecb5045db9d22a9ce983f605fbf19976f3266ed76f"
+      "sha256": "cbdb5fd35cc8ad0b9a17b902cc35eee503fea346d7da551052054b6eafce751f"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "4aa20cee2003150b3312948698832f8a71877192",
-      "path": "Documentation/Assets/Demo/Demo-light.svg",
-      "file": "sources/cli/Documentation/Assets/Demo/Demo-light.svg",
-      "sha256": "bae7f578fb3d672a1bd8edc5b6187ff8085732e643d7a54075d60709a85005d2"
+      "revision": "f41d60a133740e56938be31c9f1765bc02985aed",
+      "path": ".github/assets/terminal/terminal-light.svg",
+      "file": "sources/cli/.github/assets/terminal/terminal-light.svg",
+      "sha256": "3ab80f136f87b995adf64e3c80ac216e675d476ebcff19f0c0e8d536fe7ad831"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "4aa20cee2003150b3312948698832f8a71877192",
-      "path": "Documentation/Assets/Demo/Demo-dark.svg",
-      "file": "sources/cli/Documentation/Assets/Demo/Demo-dark.svg",
-      "sha256": "99aea5d79d4fa001fdaf8883025a1d0b63f41714e5da6c6f8f4287e9eca632bb"
+      "revision": "f41d60a133740e56938be31c9f1765bc02985aed",
+      "path": ".github/assets/terminal/terminal-dark.svg",
+      "file": "sources/cli/.github/assets/terminal/terminal-dark.svg",
+      "sha256": "9a556fe255afd0e06e82b4552ec1ebfc50bbd01d056c9b7bdbbc029fe1f086c7"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "4aa20cee2003150b3312948698832f8a71877192",
+      "revision": "f41d60a133740e56938be31c9f1765bc02985aed",
       "path": "Documentation/Assets/Logo.png",
       "file": "sources/cli/Documentation/Assets/Logo.png",
       "sha256": "58981839dd6ad3f2c1f5ed4273a64563d95f29925b210c338e76216238a73825"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "4aa20cee2003150b3312948698832f8a71877192",
+      "revision": "f41d60a133740e56938be31c9f1765bc02985aed",
       "path": "LICENSE",
       "file": "sources/cli/LICENSE",
       "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
