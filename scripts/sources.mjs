@@ -26,13 +26,13 @@ export const definitions = {
       "Documentation/Reference/CLI.md",
       ".github/assets/terminal/terminal-light.svg",
       ".github/assets/terminal/terminal-dark.svg",
-      "Documentation/Assets/Logo.png",
+      ".github/assets/logo/logo.png",
       "LICENSE",
     ],
   },
   core: {
     repository: "agents-tools/core",
-    paths: ["Documentation/Assets/Logo.svg", "LICENSE"],
+    paths: [".github/assets/logo/logo.svg", "LICENSE"],
   },
 };
 

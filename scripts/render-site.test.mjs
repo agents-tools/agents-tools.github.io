@@ -202,20 +202,36 @@ test("serves vendored images and escapes catalog values in both pages", () => {
 });
 
 test("lists repositories with their vendored icons and a light/dark picture when declared", () => {
-  const { home } = renderSite(inputs);
+  const candidate = structuredClone(inputs);
+  for (const [name, extension] of [
+    ["cli", "png"],
+    ["core", "svg"],
+  ]) {
+    const path = `.github/assets/logo/logo.${extension}`;
+    candidate.manifest.files.push({
+      repository: `agents-tools/${name}`,
+      revision: "a".repeat(40),
+      path,
+      file: `sources/${name}/${path}`,
+    });
+    candidate.catalog.groups
+      .flatMap((group) => group.repositories)
+      .find((repository) => repository.name === name).icon =
+      `${RAW}/agents-tools/${name}/HEAD/${path}`;
+  }
+  const { home } = renderSite(candidate);
   for (const source of [
-    "/assets/cli/Documentation/Assets/Logo.png",
-    "/assets/core/Documentation/Assets/Logo.svg",
+    "/assets/cli/.github/assets/logo/logo.png",
+    "/assets/core/.github/assets/logo/logo.svg",
   ])
     assert.ok(home.includes(`<img src="${source}" width="32" height="32" alt="">`), source);
-  const candidate = structuredClone(inputs);
   candidate.catalog.groups[0].repositories[0].icon = {
-    light: `${RAW}/agents-tools/cli/HEAD/Documentation/Assets/Logo.png`,
+    light: `${RAW}/agents-tools/cli/HEAD/.github/assets/logo/logo.png`,
     dark: `${RAW}/agents-tools/.github/HEAD/profile/assets/icon.png`,
   };
   assert.ok(
     renderSite(candidate).home.includes(
-      '<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="/assets/cli/Documentation/Assets/Logo.png"',
+      '<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="/assets/cli/.github/assets/logo/logo.png"',
     ),
   );
 });
