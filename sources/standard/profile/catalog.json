@@ -41,7 +41,7 @@
         {
           "name": "cli",
           "outcome": "The agents command: add skills and instructions from local paths, Git repositories or well-known indexes, write them for each agent, restore them from the lock and watch sources for changes.",
-          "icon": "https://raw.githubusercontent.com/agents-tools/cli/HEAD/Documentation/Assets/Logo.png"
+          "icon": "https://raw.githubusercontent.com/agents-tools/cli/HEAD/.github/assets/logo/logo.png"
         }
       ]
     },
@@ -51,7 +51,7 @@
         {
           "name": "core",
           "outcome": "Swift library behind agents and skill: sources, declaration, lock, cache, skills and instructions.",
-          "icon": "https://raw.githubusercontent.com/agents-tools/core/HEAD/Documentation/Assets/Logo.svg"
+          "icon": "https://raw.githubusercontent.com/agents-tools/core/HEAD/.github/assets/logo/logo.svg"
         }
       ]
     },
