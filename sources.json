@@ -3,138 +3,108 @@
   "files": [
     {
       "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
+      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
       "path": "profile/catalog.json",
       "file": "sources/standard/profile/catalog.json",
-      "sha256": "fc0c14d142e8b18346300dc466845431cf7edaca10d8eb51abf9e419d21c78d9"
+      "sha256": "5ea33187a946cb9034d0db879e9705b8ac1cd3a1d1fff4ffb1b41c361460505a"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
+      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
       "path": "profile/assets/icon.png",
       "file": "sources/standard/profile/assets/icon.png",
       "sha256": "58981839dd6ad3f2c1f5ed4273a64563d95f29925b210c338e76216238a73825"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Social/cli/card.png",
-      "file": "sources/standard/Brand/Social/cli/card.png",
-      "sha256": "b609543cc4cb71e2899902a0b01a174065199f4ce0eaebadf4c9b7a5d47c62c0"
+      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "path": ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
+      "file": "sources/standard/.github/design/fonts/GoogleSansCode[MONO,wght].ttf",
+      "sha256": "74642762fae66d5883077794a763e1086394b8cb72f2623e456e06359dc5c64b"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
-      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
-      "sha256": "b0c68614b217430da2151422ebba7228204b71b9d2ae44ee3df5d1875652a439"
-    },
-    {
-      "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
-      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Regular.woff2",
-      "sha256": "2c8842a8f5dcd4c37aef24c642c67628706f044b0cf7a3baed84537012bdb02e",
+      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "path": ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
+      "file": "sources/standard/.github/design/fonts/GoogleSansCode[MONO,wght].woff2",
+      "sha256": "ed98cac89efbca1e09b896baf1a48dd95f9feacfa7118d59efa1ad2ab692b924",
       "transform": "wawoff2@2.0.1"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
-      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
-      "sha256": "21d81560cc28969403960bf1d8387482ee58159735f54c8621c36cd5ffe0c05d"
-    },
-    {
-      "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
-      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Medium.woff2",
-      "sha256": "c13550c21c451465d5c7e148bbf64721f2f812b97ec9a375fa59bf1067894165",
-      "transform": "wawoff2@2.0.1"
-    },
-    {
-      "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
-      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
-      "sha256": "2847d27ddecb0ed4bbbc11b416862f7237107b7617a26071f5891f92d5799575"
-    },
-    {
-      "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
-      "file": "sources/standard/Brand/Fonts/GoogleSansCodeProportional-Bold.woff2",
-      "sha256": "de9379da8f6be85f933b86d3b5073a58ce91a36c544db9fc82142e8ac5182705",
-      "transform": "wawoff2@2.0.1"
-    },
-    {
-      "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
-      "path": "Brand/Fonts/OFL.txt",
-      "file": "sources/standard/Brand/Fonts/OFL.txt",
-      "sha256": "75551cee9757e2832567deb2c17ba50cd2221014fa8881b855fc7c3e3fc84eca",
+      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "path": ".github/design/fonts/OFL.txt",
+      "file": "sources/standard/.github/design/fonts/OFL.txt",
+      "sha256": "58d145732eea7ee61940a7eccecad160772b8621171b69b62183a5c7eb967740",
       "transform": "strip-trailing-whitespace",
-      "source_sha256": "ff8f4fbc4f1a71c7d4c6481c48dc2b21c43f8dc15872536667fee45c15d20928"
+      "source_sha256": "58d145732eea7ee61940a7eccecad160772b8621171b69b62183a5c7eb967740"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "6632e656e074e20635115b33d55129513991eecc",
+      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
       "path": "LICENSE",
       "file": "sources/standard/LICENSE",
       "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "7b9e06d0d46878c4e1b2ff4acb35830a6d1ba82f",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
       "path": "README.md",
       "file": "sources/cli/README.md",
-      "sha256": "d256d2c1f1cb13380fe1aecf1c94aeda77786d98b40799a95e3caebef8ce2dc5"
+      "sha256": "760e0dcd97135ad3c28da4cb233487d8c974d15e35c9652fa106ce79366b3f4a"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "7b9e06d0d46878c4e1b2ff4acb35830a6d1ba82f",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
       "path": "Documentation/Reference/CLI.md",
       "file": "sources/cli/Documentation/Reference/CLI.md",
       "sha256": "cbdb5fd35cc8ad0b9a17b902cc35eee503fea346d7da551052054b6eafce751f"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "7b9e06d0d46878c4e1b2ff4acb35830a6d1ba82f",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
       "path": ".github/assets/terminal/terminal-light.svg",
       "file": "sources/cli/.github/assets/terminal/terminal-light.svg",
       "sha256": "3ab80f136f87b995adf64e3c80ac216e675d476ebcff19f0c0e8d536fe7ad831"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "7b9e06d0d46878c4e1b2ff4acb35830a6d1ba82f",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
       "path": ".github/assets/terminal/terminal-dark.svg",
       "file": "sources/cli/.github/assets/terminal/terminal-dark.svg",
       "sha256": "9a556fe255afd0e06e82b4552ec1ebfc50bbd01d056c9b7bdbbc029fe1f086c7"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "7b9e06d0d46878c4e1b2ff4acb35830a6d1ba82f",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
       "path": ".github/assets/logo/logo.png",
       "file": "sources/cli/.github/assets/logo/logo.png",
       "sha256": "58981839dd6ad3f2c1f5ed4273a64563d95f29925b210c338e76216238a73825"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "7b9e06d0d46878c4e1b2ff4acb35830a6d1ba82f",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "path": ".github/assets/social-preview/social-preview.png",
+      "file": "sources/cli/.github/assets/social-preview/social-preview.png",
+      "sha256": "0070922e172068512e7c517a61fd0592110a9c786529fa66233502641ae260af"
+    },
+    {
+      "repository": "agents-tools/cli",
+      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
       "path": "LICENSE",
       "file": "sources/cli/LICENSE",
       "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
     },
     {
       "repository": "agents-tools/core",
-      "revision": "f89759d3cf2b45e2b933b2e4551a69f7b28bd0c4",
+      "revision": "090506b4952d7944c50254f7d7494cfbd35851e2",
       "path": ".github/assets/logo/logo.svg",
       "file": "sources/core/.github/assets/logo/logo.svg",
       "sha256": "9a1d4bed3e5e0a27b047ad7f4a61dd54436581c23014ff76e79acdd6dd93749e"
     },
     {
       "repository": "agents-tools/core",
-      "revision": "f89759d3cf2b45e2b933b2e4551a69f7b28bd0c4",
+      "revision": "090506b4952d7944c50254f7d7494cfbd35851e2",
       "path": "LICENSE",
       "file": "sources/core/LICENSE",
       "sha256": "9ae2a33a73825aa7432d20210f675857c47987e6af792f9fc628797b8401f737"

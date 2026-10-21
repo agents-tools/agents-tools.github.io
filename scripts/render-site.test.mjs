@@ -21,7 +21,7 @@ for (const url of [
   `${RAW}/agents-tools/.github/HEAD/profile/assets/icon.png" onerror="alert(1)`,
   `${RAW}/agents-tools/.github/HEAD/profile/assets/missing.png`,
   `${RAW}/agents-tools/cli/HEAD/profile/assets/icon.png`,
-  `${RAW}/agents-tools/.github/HEAD/Brand/Fonts/GoogleSansCodeProportional-Regular.woff2`,
+  `${RAW}/agents-tools/.github/HEAD/.github/design/fonts/GoogleSansCode[MONO,wght].woff2`,
   "https://example.com/icon.png",
   "../assets/icon.png",
   `${RAW}/agents-tools/.github/HEAD/profile/assets/%E0%A4%A.png`,

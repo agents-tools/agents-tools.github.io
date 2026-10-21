@@ -121,7 +121,7 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
     throw new Error("Terminal demo light and dark SVG dimensions must match");
 
   const origin = "https://agents-tools.github.io";
-  const social = "/assets/standard/Brand/Social/cli/card.png";
+  const social = "/assets/cli/.github/assets/social-preview/social-preview.png";
   const demo = `/assets/cli/${DEMO_DIRECTORY}/`;
   const title = catalog.promise;
   const footer = [

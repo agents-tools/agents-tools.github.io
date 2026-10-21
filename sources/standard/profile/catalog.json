@@ -1,7 +1,8 @@
 {
   "organization": {
     "login": "agents-tools",
-    "name": "agents"
+    "name": "agents",
+    "about": "Organization profile, brand and shared standards for agents-tools"
   },
   "promise": "Install and update agent skills and instructions, resolved to exact versions.",
   "secondary": "Works with Codex, Claude Code, Cursor, Gemini CLI and OpenCode. Instructions become managed sections of each agent's instruction file, upstream changes are previewed before you apply them, and the same instructions render for ChatGPT.",
@@ -41,7 +42,10 @@
         {
           "name": "cli",
           "outcome": "The agents command: add skills and instructions from local paths, Git repositories or well-known indexes, write them for each agent, restore them from the lock and watch sources for changes.",
-          "icon": "https://raw.githubusercontent.com/agents-tools/cli/HEAD/.github/assets/logo/logo.png"
+          "icon": "https://raw.githubusercontent.com/agents-tools/cli/HEAD/.github/assets/logo/logo.png",
+          "kind": "tool",
+          "title": "agents",
+          "about": "Install and update agent skills and instructions, resolved to exact versions."
         }
       ]
     },
@@ -51,7 +55,10 @@
         {
           "name": "core",
           "outcome": "Swift library behind agents and skill: sources, declaration, lock, cache, skills and instructions.",
-          "icon": "https://raw.githubusercontent.com/agents-tools/core/HEAD/.github/assets/logo/logo.svg"
+          "icon": "https://raw.githubusercontent.com/agents-tools/core/HEAD/.github/assets/logo/logo.svg",
+          "kind": "library",
+          "title": "core",
+          "about": "Swift libraries behind agents and skill: sources, locks, skills, instructions and watch."
         }
       ]
     },
@@ -61,7 +68,10 @@
         {
           "name": "homebrew-tap",
           "outcome": "Install agents with Homebrew.",
-          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png"
+          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png",
+          "kind": "distribution",
+          "title": "homebrew-tap",
+          "about": "Install agents with Homebrew."
         }
       ]
     },
@@ -71,7 +81,10 @@
         {
           "name": "agents-tools.github.io",
           "outcome": "Source for the agents website.",
-          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png"
+          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png",
+          "kind": "website",
+          "title": "agents-tools.github.io",
+          "about": "Source for the agents website."
         }
       ]
     }
