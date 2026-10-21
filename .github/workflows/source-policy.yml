@@ -11,4 +11,4 @@ concurrency:
   cancel-in-progress: true
 jobs:
   policy:
-    uses: agents-tools/.github/.github/workflows/policy.yml@6e3ca28f4b96f9de51bbe629048ba6ab71dc6e97
+    uses: agents-tools/.github/.github/workflows/policy.yml@d88103a9a576c9cfe9561a5d58c803255fea72f4 # v0.1.0

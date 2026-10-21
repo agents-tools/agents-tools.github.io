@@ -92,11 +92,11 @@ its demo SVGs supply Quick look. The CLI reference supplies `/docs/cli/`. Source
 links point to the owning revision on GitHub, except links to the CLI reference, which resolve
 locally. Headings use GitHub-compatible anchors.
 
-The organization supplies the social image, font files and licenses. Fonts are converted using the
-lockfile-pinned `wawoff2` WebAssembly encoder; `sources:check` reproduces them and verifies all
-input and output bytes without network access. The updater does not change the policy workflow pin.
-Changes to that pin follow the organization's
-[workflow integration guide](https://github.com/agents-tools/.github/blob/master/Documentation/Reference/WorkflowIntegration.md).
+The organization supplies the variable font and its license; the CLI supplies the social preview.
+Fonts are converted using the lockfile-pinned `wawoff2` WebAssembly encoder; `sources:check`
+reproduces them and verifies all input and output bytes without network access. The updater does not
+change the policy workflow pin. Changes to that pin follow the organization's
+[workflow integration guide](https://github.com/agents-tools/.github/blob/master/docs/reference/workflow-integration.md).
 
 ## Deployment
 
@@ -118,4 +118,4 @@ belong in the owning repository, followed by a reviewed source update here.
 
 Available under the [MIT License](LICENSE). Vendored content retains its owning
 [organization](sources/standard/LICENSE) and [CLI](sources/cli/LICENSE) notices. Google Sans Code is
-licensed under the [SIL Open Font License 1.1](sources/standard/Brand/Fonts/OFL.txt).
+licensed under the [SIL Open Font License 1.1](sources/standard/.github/design/fonts/OFL.txt).

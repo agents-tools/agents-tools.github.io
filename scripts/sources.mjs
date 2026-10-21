@@ -11,11 +11,8 @@ export const definitions = {
     paths: [
       "profile/catalog.json",
       "profile/assets/icon.png",
-      "Brand/Social/cli/card.png",
-      "Brand/Fonts/GoogleSansCodeProportional-Regular.ttf",
-      "Brand/Fonts/GoogleSansCodeProportional-Medium.ttf",
-      "Brand/Fonts/GoogleSansCodeProportional-Bold.ttf",
-      "Brand/Fonts/OFL.txt",
+      ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
+      ".github/design/fonts/OFL.txt",
       "LICENSE",
     ],
   },
@@ -27,6 +24,7 @@ export const definitions = {
       ".github/assets/terminal/terminal-light.svg",
       ".github/assets/terminal/terminal-dark.svg",
       ".github/assets/logo/logo.png",
+      ".github/assets/social-preview/social-preview.png",
       "LICENSE",
     ],
   },
@@ -77,7 +75,7 @@ export async function checkSources() {
           const input = await readFile(`sources/${key}/${path}`);
           if (digest(await compress(input)) !== entry.sha256)
             throw new Error(`Font conversion is not reproducible: ${file}`);
-        } else if (path === "Brand/Fonts/OFL.txt") {
+        } else if (path === ".github/design/fonts/OFL.txt") {
           if (entry.transform !== "strip-trailing-whitespace")
             throw new Error(`Unknown transform: ${file}`);
           if (
@@ -132,7 +130,7 @@ async function updateSources(options) {
           "application/vnd.github.raw+json",
         );
         const original = Buffer.from(await response.arrayBuffer());
-        const stripped = path === "Brand/Fonts/OFL.txt";
+        const stripped = path === ".github/design/fonts/OFL.txt";
         for (const converted of path.endsWith(".ttf") ? [false, true] : [false]) {
           const output = converted ? path.replace(/\.ttf$/, ".woff2") : path;
           const bytes = converted

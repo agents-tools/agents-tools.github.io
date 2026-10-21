@@ -1,24 +1,8 @@
 @font-face {
-  font-family: "Google Sans Code Proportional";
-  src: url("/assets/standard/Brand/Fonts/GoogleSansCodeProportional-Regular.woff2") format("woff2");
+  font-family: "Google Sans Code";
+  src: url("/assets/standard/.github/design/fonts/GoogleSansCode[MONO,wght].woff2") format("woff2");
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Google Sans Code Proportional";
-  src: url("/assets/standard/Brand/Fonts/GoogleSansCodeProportional-Medium.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Google Sans Code Proportional";
-  src: url("/assets/standard/Brand/Fonts/GoogleSansCodeProportional-Bold.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 300 800;
   font-display: swap;
 }
 
@@ -30,9 +14,11 @@
   --text: #16143d;
   --muted: #4f4c7a;
   --accent: #3b35d1;
-  --font-text: "Google Sans Code Proportional", sans-serif;
-  --font-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-text: "Google Sans Code", sans-serif;
+  --font-code: "Google Sans Code", monospace;
   font-family: var(--font-text);
+  font-variation-settings: "MONO" 0;
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
   background: var(--page);
@@ -177,9 +163,13 @@ p {
 .prose.section h2:first-child {
   margin-top: 0;
 }
-code {
+code,
+pre {
   font-family: var(--font-code);
-  font-size: 0.875em;
+  font-variation-settings: "MONO" 1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
 }
 :not(pre) > code {
   background: var(--surface);
@@ -195,10 +185,8 @@ pre {
   border-radius: 8px;
   padding: 22px;
   margin: 24px 0;
-  line-height: 1.75;
 }
 pre code {
-  font-size: 0.875rem;
   padding: 0;
 }
 .repositories {
