@@ -9,7 +9,7 @@ export function elements(node) {
   return [node, ...(node.childNodes ?? []).flatMap(elements)];
 }
 
-async function filesIn(directory) {
+export async function filesIn(directory) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const path = `${directory}/${entry.name}`;
@@ -21,6 +21,11 @@ async function filesIn(directory) {
 export async function checkLinks(directory = "dist") {
   const root = resolve(directory);
   const files = await filesIn(root);
+  const hidden = files
+    .map((path) => relative(root, path))
+    .filter((path) => path.split("/").some((segment) => segment.startsWith(".")));
+  if (hidden.length)
+    throw new Error(`GitHub Pages artifacts omit hidden paths: ${hidden.join(", ")}`);
   let checked = 0;
   for (const file of files.filter((path) => /\.(html|css)$/.test(path))) {
     const text = await readFile(file, "utf8");

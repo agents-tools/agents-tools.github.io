@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import { parse } from "parse5";
-import { renderSite } from "./render-site.mjs";
+import { renderSite, servedAsset } from "./render-site.mjs";
 
 const inputs = {
   manifest: JSON.parse(await readFile("sources.json", "utf8")),
@@ -95,13 +95,13 @@ test("serves the terminal demo's theme images with the README alternative text a
     node.attrs.some(({ name, value }) => name === "src" && value.endsWith("terminal-light.svg")),
   );
   const attributes = Object.fromEntries(demo.attrs.map(({ name, value }) => [name, value]));
-  assert.equal(attributes.src, "/assets/cli/.github/assets/terminal/terminal-light.svg");
+  assert.equal(attributes.src, "/assets/cli/github/assets/terminal/terminal-light.svg");
   assert.equal(attributes.alt, 'Session "quoted" & steps');
   assert.equal(attributes.fetchpriority, "high");
   const source = elements(demo.parentNode, "source")[0];
   assert.deepEqual(Object.fromEntries(source.attrs.map(({ name, value }) => [name, value])), {
     media: "(prefers-color-scheme: dark)",
-    srcset: "/assets/cli/.github/assets/terminal/terminal-dark.svg",
+    srcset: "/assets/cli/github/assets/terminal/terminal-dark.svg",
   });
 });
 
@@ -221,8 +221,8 @@ test("lists repositories with their vendored icons and a light/dark picture when
   }
   const { home } = renderSite(candidate);
   for (const source of [
-    "/assets/cli/.github/assets/logo/logo.png",
-    "/assets/core/.github/assets/logo/logo.svg",
+    "/assets/cli/github/assets/logo/logo.png",
+    "/assets/core/github/assets/logo/logo.svg",
   ])
     assert.ok(home.includes(`<img src="${source}" width="32" height="32" alt="">`), source);
   candidate.catalog.groups[0].repositories[0].icon = {
@@ -231,7 +231,7 @@ test("lists repositories with their vendored icons and a light/dark picture when
   };
   assert.ok(
     renderSite(candidate).home.includes(
-      '<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="/assets/cli/.github/assets/logo/logo.png"',
+      '<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="/assets/cli/github/assets/logo/logo.png"',
     ),
   );
 });
@@ -243,4 +243,15 @@ test("links the website's own documentation in the header, not the footer", () =
   for (const role of ["contributing", "security", "support"])
     assert.ok(footer.includes(`>${inputs.catalog.navigation[role].label}</a>`), role);
   assert.ok(footer.includes(`>${inputs.catalog.maintainer.label}</a>`));
+});
+
+test("serves vendored files at paths without hidden segments", () => {
+  assert.equal(
+    servedAsset("sources/cli/.github/assets/logo/logo.png"),
+    "/assets/cli/github/assets/logo/logo.png",
+  );
+  const { home, documentation } = renderSite(inputs);
+  for (const html of [home, documentation])
+    for (const [, path] of html.matchAll(/(?:src|srcset|href|content)="(\/[^"]*)"/g))
+      assert.ok(!path.split("/").some((segment) => segment.startsWith(".")), path);
 });

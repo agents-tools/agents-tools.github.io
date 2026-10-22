@@ -48,7 +48,7 @@ for (const path of ["/", "/docs/cli/"]) {
     if (path === "/") {
       await expect(page.locator(".lede")).toHaveText(catalog.secondary);
       expect(await page.locator("picture img").evaluate((image) => image.currentSrc)).toContain(
-        `/assets/cli/.github/assets/terminal/terminal-${testInfo.project.use.colorScheme}.svg`,
+        `/assets/cli/github/assets/terminal/terminal-${testInfo.project.use.colorScheme}.svg`,
       );
       const recording = await page.locator(".quick-look img").evaluate((image) => ({
         width: image.getBoundingClientRect().width,

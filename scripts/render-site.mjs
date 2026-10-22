@@ -19,6 +19,13 @@ function validateHttps(url, label) {
     throw new Error(`Catalog ${label} URL must be an absolute https: URL: ${url}`);
 }
 
+// GitHub Pages artifacts omit every path segment that starts with a dot, so served paths
+// drop the leading dot of vendored directories such as `.github`.
+export function servedAsset(file) {
+  const segments = file.slice("sources/".length).split("/");
+  return `/assets/${segments.map((segment) => segment.replace(/^\.+/, "")).join("/")}`;
+}
+
 // Catalog images are raw GitHub URLs; the site serves only their vendored copies.
 function vendoredAsset(manifest, url) {
   const match = typeof url === "string" ? url.match(RAW_ASSET) : null;
@@ -34,7 +41,7 @@ function vendoredAsset(manifest, url) {
     );
   if (!entry)
     throw new Error(`Catalog image must be a vendored raw GitHub file in sources.json: ${url}`);
-  return `/assets/${entry.file.slice("sources/".length)}`;
+  return servedAsset(entry.file);
 }
 
 function vendoredImage(manifest, value) {
@@ -121,8 +128,8 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
     throw new Error("Terminal demo light and dark SVG dimensions must match");
 
   const origin = "https://agents-tools.github.io";
-  const social = "/assets/cli/.github/assets/social-preview/social-preview.png";
-  const demo = `/assets/cli/${DEMO_DIRECTORY}/`;
+  const social = servedAsset("sources/cli/.github/assets/social-preview/social-preview.png");
+  const demo = servedAsset(`sources/cli/${DEMO_DIRECTORY}/`);
   const title = catalog.promise;
   const footer = [
     ...FOOTER_ROLES.filter((role) => catalog.navigation[role]).map(
@@ -221,13 +228,16 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     await writeFile(`.build/site/${path}`, html);
   }
   await copyFile("src/site.css", ".build/site/site.css");
+  const served = new Set();
   for (const entry of manifest.files) {
     if (!/\.(?:png|svg|woff2)$/.test(entry.file) && !/(?:OFL\.txt|LICENSE)$/.test(entry.file))
       continue;
-    const destination = `.build/site/public/assets/${entry.file.slice("sources/".length)}`;
+    const path = servedAsset(entry.file);
+    if (served.has(path)) throw new Error(`Two vendored files are served at ${path}`);
+    served.add(path);
+    const destination = `.build/site/public${path}`;
     await mkdir(dirname(destination), { recursive: true });
     await copyFile(entry.file, destination);
   }
-  await writeFile(".build/site/public/.nojekyll", "");
   console.log("Rendered / and /docs/cli/ from pinned sources.");
 }
