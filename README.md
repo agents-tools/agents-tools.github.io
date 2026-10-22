@@ -68,7 +68,9 @@ test evidence live in ignored `.build/`; Vite writes the deployable site to igno
 ## Content sources
 
 [`sources.json`](sources.json) records each file's owning repository, full revision, upstream path,
-local path, SHA-256 and any transform. `sources/` holds the input files and derived assets. The font
+local path, SHA-256 and any transform. `sources/` holds the input files and derived assets. GitHub
+Pages artifacts omit hidden paths, so the site serves vendored files with the leading dot removed
+from directory names such as `.github`; `check:links` rejects any hidden path in `dist/`. The font
 license strips trailing spaces and tabs, with its upstream digest recorded as `source_sha256`. Never
 edit these files by hand.
 
@@ -103,8 +105,9 @@ change the policy workflow pin. Changes to that pin follow the organization's
 [Pages](.github/workflows/pages.yml) builds and deploys pushes to `master`, or manual runs on
 `master`, to https://agents-tools.github.io/. Only the deployment job receives Pages and
 identity-token write permissions. Its `pages` concurrency group does not cancel a running
-deployment. CI and policy run on branch pushes, pull requests and manual dispatch; policy also runs
-on pull-request title edits.
+deployment. A following `verify` job fetches every file of the deployed artifact from the live site
+and compares its bytes. CI and policy run on branch pushes, pull requests and manual dispatch;
+policy also runs on pull-request title edits.
 
 ## Contributing
 
