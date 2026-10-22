@@ -1,5 +1,6 @@
 import MarkdownIt from "markdown-it";
 import GithubSlugger from "github-slugger";
+import { site } from "./site.mjs";
 
 export const markdown = new MarkdownIt({ html: false });
 export const escape = markdown.utils.escapeHtml;
@@ -26,7 +27,7 @@ export function rewriteLink(href, { repository, revision, path, anchors }) {
   const base = new URL(`https://source.invalid/${path}`);
   const target = new URL(href, base);
   const sourcePath = target.pathname.slice(1);
-  if (repository === "agents-tools/cli" && sourcePath === "Documentation/Reference/CLI.md")
+  if (repository === site.sources.cli.repository && sourcePath === "Documentation/Reference/CLI.md")
     return `/docs/cli/${target.search}${target.hash}`;
   return `https://github.com/${repository}/blob/${revision}/${sourcePath}${target.search}${target.hash}`;
 }

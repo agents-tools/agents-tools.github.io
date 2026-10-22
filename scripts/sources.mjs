@@ -4,35 +4,9 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { compress } from "wawoff2";
+import { site } from "./site.mjs";
 
-export const definitions = {
-  standard: {
-    repository: "agents-tools/.github",
-    paths: [
-      "profile/catalog.json",
-      "profile/assets/icon.png",
-      ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
-      ".github/design/fonts/OFL.txt",
-      "LICENSE",
-    ],
-  },
-  cli: {
-    repository: "agents-tools/cli",
-    paths: [
-      "README.md",
-      "Documentation/Reference/CLI.md",
-      ".github/assets/terminal/terminal-light.svg",
-      ".github/assets/terminal/terminal-dark.svg",
-      ".github/assets/logo/logo.png",
-      ".github/assets/social-preview/social-preview.png",
-      "LICENSE",
-    ],
-  },
-  core: {
-    repository: "agents-tools/core",
-    paths: [".github/assets/logo/logo.svg", "LICENSE"],
-  },
-};
+export const definitions = site.sources;
 
 export const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
@@ -102,7 +76,7 @@ async function github(path, accept = "application/vnd.github+json") {
   const response = await fetch(`https://api.github.com/repos/${path}`, {
     headers: {
       Accept: accept,
-      "User-Agent": "agents-website-sources",
+      "User-Agent": `${site.name}-website-sources`,
       ...(process.env.GH_TOKEN ? { Authorization: `Bearer ${process.env.GH_TOKEN}` } : {}),
     },
     signal: AbortSignal.timeout(30_000),
@@ -170,12 +144,14 @@ async function updateSources(options) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const keys = Object.keys(definitions);
   const { values, positionals } = parseArgs({
     allowPositionals: true,
-    options: { cli: { type: "string" }, core: { type: "string" }, standard: { type: "string" } },
+    options: Object.fromEntries(keys.map((key) => [key, { type: "string" }])),
   });
-  if (positionals.length !== 1) throw new Error("Use sources.mjs update or check");
+  const usage = `Use sources.mjs update ${keys.map((key) => `[--${key} SHA]`).join(" ")} or check`;
+  if (positionals.length !== 1) throw new Error(usage);
   if (positionals[0] === "update") await updateSources(values);
   else if (positionals[0] === "check" && Object.keys(values).length === 0) await checkSources();
-  else throw new Error("Use sources.mjs update [--cli SHA] [--core SHA] [--standard SHA] or check");
+  else throw new Error(usage);
 }

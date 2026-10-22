@@ -1,0 +1,32 @@
+{
+  "name": "agents",
+  "origin": "https://agents-tools.github.io",
+  "sources": {
+    "standard": {
+      "repository": "agents-tools/.github",
+      "paths": [
+        "profile/catalog.json",
+        "profile/assets/icon.png",
+        ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
+        ".github/design/fonts/OFL.txt",
+        "LICENSE"
+      ]
+    },
+    "cli": {
+      "repository": "agents-tools/cli",
+      "paths": [
+        "README.md",
+        "Documentation/Reference/CLI.md",
+        ".github/assets/terminal/terminal-light.svg",
+        ".github/assets/terminal/terminal-dark.svg",
+        ".github/assets/logo/logo.png",
+        ".github/assets/social-preview/social-preview.png",
+        "LICENSE"
+      ]
+    },
+    "core": {
+      "repository": "agents-tools/core",
+      "paths": [".github/assets/logo/logo.svg", "LICENSE"]
+    }
+  }
+}
