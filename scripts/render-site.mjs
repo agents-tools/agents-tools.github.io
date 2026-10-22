@@ -3,6 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse, parseFragment } from "parse5";
 import { escape, renderMarkdown, section } from "./markdown.mjs";
+import { site } from "./site.mjs";
 
 const RAW_ASSET =
   /^https:\/\/raw\.githubusercontent\.com\/([A-Za-z0-9._-]+)\/([A-Za-z0-9._-]+)\/[^/?#]+\/([^?#]+)$/;
@@ -86,16 +87,15 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
       icons.set(name, vendoredImage(manifest, icon));
     }
 
+  const { standard, cli } = site.sources;
   const catalogSource = manifest.files.find(
-    (entry) => entry.repository === "agents-tools/.github" && entry.path === "profile/catalog.json",
+    (entry) => entry.repository === standard.repository && entry.path === "profile/catalog.json",
   );
   if (!catalogSource)
-    throw new Error("Missing agents-tools/.github catalog source in sources.json");
-  const cliRevision = manifest.files.find(
-    (entry) => entry.repository === "agents-tools/cli",
-  ).revision;
+    throw new Error(`Missing ${standard.repository} catalog source in sources.json`);
+  const cliRevision = manifest.files.find((entry) => entry.repository === cli.repository).revision;
   const identity = (path, label) => ({
-    repository: "agents-tools/cli",
+    repository: cli.repository,
     revision: cliRevision,
     path,
     label,
@@ -127,7 +127,7 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
   if (demoSize.width !== darkSize.width || demoSize.height !== darkSize.height)
     throw new Error("Terminal demo light and dark SVG dimensions must match");
 
-  const origin = "https://agents-tools.github.io";
+  const { name, origin } = site;
   const social = servedAsset("sources/cli/.github/assets/social-preview/social-preview.png");
   const demo = servedAsset(`sources/cli/${DEMO_DIRECTORY}/`);
   const title = catalog.promise;
@@ -139,7 +139,7 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
   ];
 
   function page(path, pageTitle, content) {
-    const documentTitle = path === "/" ? "agents" : `${pageTitle} · agents`;
+    const documentTitle = path === "/" ? name : `${pageTitle} · ${name}`;
     return `<!doctype html>
 <html lang="en">
   <head>
@@ -151,7 +151,7 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
     <link rel="canonical" href="${escape(`${origin}${path}`)}">
     <link rel="icon" type="image/png" href="${escape(mark.light)}">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="agents">
+    <meta property="og:site_name" content="${escape(name)}">
     <meta property="og:title" content="${escape(pageTitle)}">
     <meta property="og:description" content="${escape(catalog.description)}">
     <meta property="og:url" content="${escape(`${origin}${path}`)}">
@@ -169,7 +169,7 @@ export function renderSite({ manifest, catalog, readme, reference, demoSvgs }) {
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header container">
-      <a class="brand" href="/" aria-label="agents home">${imageTag(mark, 40, `${catalog.organization.name} mark`)}<span>agents</span></a>
+      <a class="brand" href="/" aria-label="${escape(`${name} home`)}">${imageTag(mark, 40, `${catalog.organization.name} mark`)}<span>${escape(name)}</span></a>
       <nav aria-label="Primary"><a href="/#install">Install</a><a href="/#usage">Usage</a><a href="/docs/cli/"${path === "/docs/cli/" ? ' aria-current="page"' : ""}>Docs</a><a href="${escape(`https://github.com/${owner}`)}">GitHub</a></nav>
     </header>
     <main id="main" class="container" tabindex="-1">${content}</main>

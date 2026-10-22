@@ -2,8 +2,9 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import { resolve, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "parse5";
+import { site } from "./site.mjs";
 
-const origin = "https://agents-tools.github.io";
+const { origin } = site;
 
 export function elements(node) {
   return [node, ...(node.childNodes ?? []).flatMap(elements)];

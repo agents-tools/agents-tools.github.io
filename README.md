@@ -37,8 +37,12 @@ npm ci
 npm run dev
 ```
 
-Edit layout and rendering in `scripts/render-site.mjs`, Markdown handling in `scripts/markdown.mjs`,
-and styles in `src/site.css`. Restart `npm run dev` after edits to regenerate the pages.
+[`site.json`](site.json) holds the site's name, origin and pinned source repositories and files.
+Everything else, including scripts, styles and tests, is shared with the
+[skill website](https://github.com/skill-cli/skill-cli.github.io), which keeps the same files with
+its own `site.json`. Edit layout and rendering in `scripts/render-site.mjs`, Markdown handling in
+`scripts/markdown.mjs`, and styles in `src/site.css`. Restart `npm run dev` after edits to
+regenerate the pages.
 
 Install Chromium once, then run the complete local check:
 
@@ -80,11 +84,11 @@ npm run sources:update -- --cli <full-sha> --core <full-sha> --standard <full-sh
 npm run sources:check
 ```
 
-The updater reads GitHub's API, resolves each repository's `master` once unless a full SHA is
-supplied, and fetches all files at those immutable revisions. An optional `GH_TOKEN` provides
-authenticated API access. Unspecified repositories use their current `master`. Downloads are staged
-in `.build/sources/` and removed when the update finishes. Review and commit `sources/` and
-`sources.json` together.
+The updater fetches the files that `site.json` lists. It reads GitHub's API, resolves each
+repository's `master` once unless a full SHA is supplied, and fetches all files at those immutable
+revisions. An optional `GH_TOKEN` provides authenticated API access. Unspecified repositories use
+their current `master`. Downloads are staged in `.build/sources/` and removed when the update
+finishes. Review and commit `sources/` and `sources.json` together.
 
 The organization catalog supplies the promise, secondary line, description, mark, repository groups
 and outcomes, footer links and maintainer line. Its images are raw GitHub URLs; the site serves only

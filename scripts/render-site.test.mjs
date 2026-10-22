@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import { parse } from "parse5";
 import { renderSite, servedAsset } from "./render-site.mjs";
+import { site } from "./site.mjs";
 
 const inputs = {
   manifest: JSON.parse(await readFile("sources.json", "utf8")),
@@ -16,15 +17,17 @@ const inputs = {
 };
 
 const RAW = "https://raw.githubusercontent.com";
+const STANDARD = site.sources.standard.repository;
+const CLI = site.sources.cli.repository;
 
 for (const url of [
-  `${RAW}/agents-tools/.github/HEAD/profile/assets/icon.png" onerror="alert(1)`,
-  `${RAW}/agents-tools/.github/HEAD/profile/assets/missing.png`,
-  `${RAW}/agents-tools/cli/HEAD/profile/assets/icon.png`,
-  `${RAW}/agents-tools/.github/HEAD/.github/design/fonts/GoogleSansCode[MONO,wght].woff2`,
+  `${RAW}/${STANDARD}/HEAD/profile/assets/icon.png" onerror="alert(1)`,
+  `${RAW}/${STANDARD}/HEAD/profile/assets/missing.png`,
+  `${RAW}/${CLI}/HEAD/profile/assets/icon.png`,
+  `${RAW}/${STANDARD}/HEAD/.github/design/fonts/GoogleSansCode[MONO,wght].woff2`,
   "https://example.com/icon.png",
   "../assets/icon.png",
-  `${RAW}/agents-tools/.github/HEAD/profile/assets/%E0%A4%A.png`,
+  `${RAW}/${STANDARD}/HEAD/profile/assets/%E0%A4%A.png`,
 ]) {
   test(`rejects a catalog image that is not a vendored raw GitHub file: ${url}`, () => {
     for (const place of ["mark", "icon"]) {
@@ -153,7 +156,7 @@ test("rejects mismatched terminal demo SVG widths or heights", () => {
 test("uses the brand for the home document title and the catalog heading for social titles", () => {
   const { home, documentation } = renderSite(inputs);
   const document = parse(home);
-  assert.equal(elements(document, "title")[0].childNodes[0].value, "agents");
+  assert.equal(elements(document, "title")[0].childNodes[0].value, site.name);
   assert.equal(elements(document, "h1")[0].childNodes[0].value, inputs.catalog.promise);
   for (const key of ["og:title", "twitter:title"]) {
     const meta = elements(document, "meta").find((node) =>
@@ -161,15 +164,15 @@ test("uses the brand for the home document title and the catalog heading for soc
     );
     assert.equal(meta.attrs.find(({ name }) => name === "content").value, inputs.catalog.promise);
   }
-  assert.match(documentation, /<title>CLI Reference · agents<\/title>/);
+  assert.ok(documentation.includes(`<title>CLI Reference · ${site.name}</title>`));
 });
 
 test("serves vendored images and escapes catalog values in both pages", () => {
   const candidate = structuredClone(inputs);
   const path = 'profile/assets/icon.png" data-injected="yes&<';
-  candidate.catalog.mark = `${RAW}/agents-tools/.github/HEAD/${encodeURIComponent(path)}`;
+  candidate.catalog.mark = `${RAW}/${STANDARD}/HEAD/${encodeURIComponent(path)}`;
   candidate.manifest.files.push({
-    repository: "agents-tools/.github",
+    repository: STANDARD,
     revision: "a".repeat(40),
     path,
     file: `sources/standard/${path}`,
@@ -203,35 +206,30 @@ test("serves vendored images and escapes catalog values in both pages", () => {
 
 test("lists repositories with their vendored icons and a light/dark picture when declared", () => {
   const candidate = structuredClone(inputs);
-  for (const [name, extension] of [
-    ["cli", "png"],
-    ["core", "svg"],
-  ]) {
-    const path = `.github/assets/logo/logo.${extension}`;
+  const owner = candidate.catalog.organization.login;
+  const repositories = candidate.catalog.groups.flatMap((group) => group.repositories);
+  const icons = repositories.slice(0, 2).map(({ name }, index) => {
+    const path = `.github/assets/logo/test-logo.${index ? "svg" : "png"}`;
     candidate.manifest.files.push({
-      repository: `agents-tools/${name}`,
+      repository: `${owner}/${name}`,
       revision: "a".repeat(40),
       path,
-      file: `sources/${name}/${path}`,
+      file: `sources/test-${name}/${path}`,
     });
-    candidate.catalog.groups
-      .flatMap((group) => group.repositories)
-      .find((repository) => repository.name === name).icon =
-      `${RAW}/agents-tools/${name}/HEAD/${path}`;
-  }
+    repositories[index].icon = `${RAW}/${owner}/${name}/HEAD/${path}`;
+    return `/assets/test-${name}/github/assets/logo/test-logo.${index ? "svg" : "png"}`;
+  });
+  assert.equal(icons.length, 2);
   const { home } = renderSite(candidate);
-  for (const source of [
-    "/assets/cli/github/assets/logo/logo.png",
-    "/assets/core/github/assets/logo/logo.svg",
-  ])
+  for (const source of icons)
     assert.ok(home.includes(`<img src="${source}" width="32" height="32" alt="">`), source);
-  candidate.catalog.groups[0].repositories[0].icon = {
-    light: `${RAW}/agents-tools/cli/HEAD/.github/assets/logo/logo.png`,
-    dark: `${RAW}/agents-tools/.github/HEAD/profile/assets/icon.png`,
+  repositories[0].icon = {
+    light: `${RAW}/${owner}/${repositories[0].name}/HEAD/.github/assets/logo/test-logo.png`,
+    dark: `${RAW}/${STANDARD}/HEAD/profile/assets/icon.png`,
   };
   assert.ok(
     renderSite(candidate).home.includes(
-      '<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="/assets/cli/github/assets/logo/logo.png"',
+      `<picture><source media="(prefers-color-scheme: dark)" srcset="/assets/standard/profile/assets/icon.png"><img src="${icons[0]}"`,
     ),
   );
 });

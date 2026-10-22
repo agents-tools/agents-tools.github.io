@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { renderMarkdown, section } from "./markdown.mjs";
+import { site } from "./site.mjs";
 
 const identity = {
-  repository: "agents-tools/cli",
+  repository: site.sources.cli.repository,
   revision: "a".repeat(40),
   path: "README.md",
   label: "Test",
@@ -36,12 +37,12 @@ test("rewrites source-relative links and out-of-excerpt anchors at the pinned re
   assert.match(html, /href="\/docs\/cli\/#commands"/);
   assert.ok(
     html.includes(
-      `https://github.com/agents-tools/cli/blob/${identity.revision}/README.md#requirements`,
+      `https://github.com/${identity.repository}/blob/${identity.revision}/README.md#requirements`,
     ),
   );
   assert.ok(
     html.includes(
-      `https://github.com/agents-tools/cli/blob/${identity.revision}/Documentation/Reference/Schemas/a.json`,
+      `https://github.com/${identity.repository}/blob/${identity.revision}/Documentation/Reference/Schemas/a.json`,
     ),
   );
   assert.match(html, /href="https:\/\/example.com"/);

@@ -1,8 +1,16 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
+import { site } from "../scripts/site.mjs";
 
 const catalog = JSON.parse(readFileSync("sources/standard/profile/catalog.json", "utf8"));
+// The Install section's first paragraph, as rendered text.
+const installLead = readFileSync("sources/cli/README.md", "utf8")
+  .split(/^## Install$/m)[1]
+  .trim()
+  .split(/\n\s*\n/)[0]
+  .replace(/[`*_]/g, "")
+  .replace(/\s+/g, " ");
 
 for (const path of ["/", "/docs/cli/"]) {
   test(`${path} renders accessibly with local assets and resolving links`, async ({
@@ -27,7 +35,7 @@ for (const path of ["/", "/docs/cli/"]) {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      `https://agents-tools.github.io${path}`,
+      `${site.origin}${path}`,
     );
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
@@ -47,7 +55,7 @@ for (const path of ["/", "/docs/cli/"]) {
     expect(loaded).toBe(true);
     if (path === "/") {
       await expect(page.locator(".lede")).toHaveText(catalog.secondary);
-      expect(await page.locator("picture img").evaluate((image) => image.currentSrc)).toContain(
+      expect(await page.locator(".quick-look img").evaluate((image) => image.currentSrc)).toContain(
         `/assets/cli/github/assets/terminal/terminal-${testInfo.project.use.colorScheme}.svg`,
       );
       const recording = await page.locator(".quick-look img").evaluate((image) => ({
@@ -68,9 +76,7 @@ for (const path of ["/", "/docs/cli/"]) {
       } else {
         expect(scrolling.scrollWidth).toBe(scrolling.width);
       }
-      await expect(page.locator("#install + p")).toHaveText(
-        "Install the latest release from the Homebrew tap:",
-      );
+      await expect(page.locator("#install + p")).toHaveText(installLead);
       await expect(page.locator(".repositories li")).toHaveCount(
         catalog.groups.flatMap((group) => group.repositories).length,
       );
