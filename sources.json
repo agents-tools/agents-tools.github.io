@@ -3,28 +3,28 @@
   "files": [
     {
       "repository": "agents-tools/.github",
-      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "revision": "6add3acfbed4e3bfbdb26db19072611772326799",
       "path": "profile/catalog.json",
       "file": "sources/standard/profile/catalog.json",
-      "sha256": "5ea33187a946cb9034d0db879e9705b8ac1cd3a1d1fff4ffb1b41c361460505a"
+      "sha256": "74df9b8154643e8b6227c6c6b899b3d8ee8abfada8959a787c5c8b2f3f5d6133"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "revision": "6add3acfbed4e3bfbdb26db19072611772326799",
       "path": "profile/assets/icon.png",
       "file": "sources/standard/profile/assets/icon.png",
       "sha256": "58981839dd6ad3f2c1f5ed4273a64563d95f29925b210c338e76216238a73825"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "revision": "6add3acfbed4e3bfbdb26db19072611772326799",
       "path": ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
       "file": "sources/standard/.github/design/fonts/GoogleSansCode[MONO,wght].ttf",
       "sha256": "74642762fae66d5883077794a763e1086394b8cb72f2623e456e06359dc5c64b"
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "revision": "6add3acfbed4e3bfbdb26db19072611772326799",
       "path": ".github/design/fonts/GoogleSansCode[MONO,wght].ttf",
       "file": "sources/standard/.github/design/fonts/GoogleSansCode[MONO,wght].woff2",
       "sha256": "ed98cac89efbca1e09b896baf1a48dd95f9feacfa7118d59efa1ad2ab692b924",
@@ -32,7 +32,7 @@
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "revision": "6add3acfbed4e3bfbdb26db19072611772326799",
       "path": ".github/design/fonts/OFL.txt",
       "file": "sources/standard/.github/design/fonts/OFL.txt",
       "sha256": "58d145732eea7ee61940a7eccecad160772b8621171b69b62183a5c7eb967740",
@@ -41,70 +41,70 @@
     },
     {
       "repository": "agents-tools/.github",
-      "revision": "d88103a9a576c9cfe9561a5d58c803255fea72f4",
+      "revision": "6add3acfbed4e3bfbdb26db19072611772326799",
       "path": "LICENSE",
       "file": "sources/standard/LICENSE",
       "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": "README.md",
       "file": "sources/cli/README.md",
-      "sha256": "760e0dcd97135ad3c28da4cb233487d8c974d15e35c9652fa106ce79366b3f4a"
+      "sha256": "99cbc88a281b1d041d3cf7444551fd2de3ab7b32b53c50f6f2e31796522a9215"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": "Documentation/Reference/CLI.md",
       "file": "sources/cli/Documentation/Reference/CLI.md",
-      "sha256": "cbdb5fd35cc8ad0b9a17b902cc35eee503fea346d7da551052054b6eafce751f"
+      "sha256": "63450d387a021a239c363ae858d310ea730ab2de6847117df96ec5be0a949231"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": ".github/assets/terminal/terminal-light.svg",
       "file": "sources/cli/.github/assets/terminal/terminal-light.svg",
-      "sha256": "3ab80f136f87b995adf64e3c80ac216e675d476ebcff19f0c0e8d536fe7ad831"
+      "sha256": "48c6023cb8aa449d5df82f345dde942ddd3c2af03f7978add1bb6bc8886c7561"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": ".github/assets/terminal/terminal-dark.svg",
       "file": "sources/cli/.github/assets/terminal/terminal-dark.svg",
-      "sha256": "9a556fe255afd0e06e82b4552ec1ebfc50bbd01d056c9b7bdbbc029fe1f086c7"
+      "sha256": "10d590cd834c59e385fccae7c6a4d2d22c4e0a096528a3b0f87ed37a79fd5a44"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": ".github/assets/logo/logo.png",
       "file": "sources/cli/.github/assets/logo/logo.png",
       "sha256": "58981839dd6ad3f2c1f5ed4273a64563d95f29925b210c338e76216238a73825"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": ".github/assets/social-preview/social-preview.png",
       "file": "sources/cli/.github/assets/social-preview/social-preview.png",
       "sha256": "0070922e172068512e7c517a61fd0592110a9c786529fa66233502641ae260af"
     },
     {
       "repository": "agents-tools/cli",
-      "revision": "43219bca09528564e34ec30776d3c04d08d6d98b",
+      "revision": "c483efc5d13529114174c0d7e3e2471c8df357e5",
       "path": "LICENSE",
       "file": "sources/cli/LICENSE",
       "sha256": "e5161d00bc83bb836971bd3db25271351663b8aa8928eb1b15b58f3c47ccdbeb"
     },
     {
       "repository": "agents-tools/core",
-      "revision": "090506b4952d7944c50254f7d7494cfbd35851e2",
+      "revision": "8b44870d0ac26ee649c1454088fdce980f6aeac4",
       "path": ".github/assets/logo/logo.svg",
       "file": "sources/core/.github/assets/logo/logo.svg",
       "sha256": "9a1d4bed3e5e0a27b047ad7f4a61dd54436581c23014ff76e79acdd6dd93749e"
     },
     {
       "repository": "agents-tools/core",
-      "revision": "090506b4952d7944c50254f7d7494cfbd35851e2",
+      "revision": "8b44870d0ac26ee649c1454088fdce980f6aeac4",
       "path": "LICENSE",
       "file": "sources/core/LICENSE",
       "sha256": "9ae2a33a73825aa7432d20210f675857c47987e6af792f9fc628797b8401f737"

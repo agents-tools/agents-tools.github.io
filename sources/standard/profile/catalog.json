@@ -2,7 +2,7 @@
   "organization": {
     "login": "agents-tools",
     "name": "agents",
-    "about": "Organization profile, brand and shared standards for agents-tools"
+    "about": "Organization profile, brand and shared standards for agents-tools."
   },
   "promise": "Install and update agent skills and instructions, resolved to exact versions.",
   "secondary": "Works with Codex, Claude Code, Cursor, Gemini CLI and OpenCode. Instructions become managed sections of each agent's instruction file, upstream changes are previewed before you apply them, and the same instructions render for ChatGPT.",
@@ -59,6 +59,14 @@
           "kind": "library",
           "title": "core",
           "about": "Swift libraries behind agents and skill: sources, locks, skills, instructions and watch."
+        },
+        {
+          "name": "github-workflows",
+          "outcome": "Shared GitHub Actions workflows and checks for agents-tools and skill-cli repositories.",
+          "icon": "https://raw.githubusercontent.com/agents-tools/.github/HEAD/profile/assets/icon.png",
+          "kind": "tool",
+          "title": "github-workflows",
+          "about": "Shared GitHub Actions workflows and checks for agents-tools and skill-cli repositories."
         }
       ]
     },
