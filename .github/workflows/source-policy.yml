@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   policy:
-    uses: agents-tools/github-workflows/.github/workflows/policy.yml@2ce48fb8834304acf010fa1b47a05db6148ab6c4
+    uses: agents-tools/github-workflows/.github/workflows/policy.yml@bb0a8c8c39827a364b9d3cbf4069754e7d975586
     with:
       allow-terms: |
         ChatGPT
