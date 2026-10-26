@@ -3,6 +3,9 @@ dist/
 test-results/
 playwright-report/
 .build/
-.agent/
 .claude/
 .DS_Store
+/.agent/*
+!/.agent/instructions/
+!/.agent/agents.json
+!/.agent/agents.resolved
